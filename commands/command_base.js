@@ -37,6 +37,16 @@ class CommandBase {
 
   sendResponse(res, fullResponse) {
     res.set('content-type', 'application/json');
+    fullResponse = {
+        "response_type": "in_channel",
+        "text": "It's 80 degrees right now.",
+        "attachments": [
+            {
+                "text":"Partly cloudy today and tomorrow"
+            }
+        ]
+    }
+
     res.status(200).json(fullResponse);
     console.log('done');
   }

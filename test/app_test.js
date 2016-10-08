@@ -58,7 +58,7 @@ test('POST /command help', function(done) {
     assert(resp);
 
     let body = resp.body;
-    assert.equal('Tiko', body.username);
+    assert.equal("in_channel", body.response_type);
 
     done();
   });
