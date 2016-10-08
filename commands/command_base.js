@@ -15,7 +15,6 @@ class CommandBase {
     this.defaultAttachmentInfo = {
       title: 'TicTacToe',
       color: '#2FA44F',
-      mrkdwn_in: ['text']
     }
   }
 
@@ -29,7 +28,7 @@ class CommandBase {
 
     const response = {
       channel: params.channel_name,
-      attachment: attachments
+      attachments: attachments
     };
 
     return Object.assign(this.defaultMessageInfo, response);
@@ -37,16 +36,6 @@ class CommandBase {
 
   sendResponse(res, fullResponse) {
     res.set('content-type', 'application/json');
-    fullResponse = {
-        "response_type": "in_channel",
-        "text": "It's 80 degrees right now.",
-        "attachments": [
-            {
-                "text":"Partly cloudy today and tomorrow"
-            }
-        ]
-    }
-
     res.status(200).json(fullResponse);
     console.log('done');
   }
