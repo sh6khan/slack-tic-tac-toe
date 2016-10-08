@@ -12,7 +12,7 @@ test('it should be able to generate attachments', function(done) {
   }
 
   const expected = {
-    title: 'TicTacToe',
+    title: 'Slack Challenge',
     color: '#2FA44F',
     mrkdwn_in: ['text'],
     text: 'this is some help text',
@@ -26,7 +26,7 @@ test('it should be able to generate full responses', function(done) {
   let commandBase = new CommandBase();
 
   const attachmentObject = {
-    title: 'TicTacToe',
+    title: 'Slack Challenge',
     color: '#2FA44F',
     mrkdwn_in: ['text'],
     text: 'this is some help text',
@@ -37,7 +37,7 @@ test('it should be able to generate full responses', function(done) {
   }
 
   const expectedFullResponse = {
-    attachment: [
+    attachments: [
       attachmentObject
     ],
     channel: 'test_channel',
