@@ -2,14 +2,24 @@
 
 const Board = require('../lib/board');
 
+const Status = {
+  ACTIVE: 0,
+  PLAYERONE_WINNER: 1,
+  PLAYERTWO_WINNER: 2,
+  TIE: 4
+}
+
 class TicTacToe {
-  consturctor(player1, player2) {
+  constructor(playerOne, playerTwo) {
     // Iniitalize a 3 by 3 board
-    this.board = Board.new(3)
+    this.board = new Board(3);
+    this.playerOne = playerOne;
+    this.playerTwo = playerTwo;
   }
 
   /**
-  * Place a player move on the board based on the x and y coor                                                                                     dinate
+  * Place a player move on the board based on the x and y coordinate
+  *                                                                                      dinate
   * @param x {Int} - the X coordinate to be placed on the board
   * @param y {Int} - the Y coordinate to be placed on the board
   * @param player {Player} - the player making the move
@@ -30,8 +40,8 @@ class TicTacToe {
 
     // after placing a move on the board
     // check to see if there is a winner
-    player = this.board.winner
-    return player
+    player = this.board.winner();
+
 
     // if (player) {
     //   //TODO: message winner in slack channel
@@ -43,9 +53,17 @@ class TicTacToe {
   * according to a simplefied chess algoirthm
   */
   winner(player) {
-
+    console.log(player + ' is the winner !');
   }
 
-
-
+  /**
+  * Validate move is coming from one of the players an not someone else
+  */
+  _validate_player(player) {
+    if (player != this.playerOne && player != this.playerTwo) {
+      throw new Error(player + ' is not one of players of the game');
+    }
+  }
 }
+
+module.exports = TicTacToe;
