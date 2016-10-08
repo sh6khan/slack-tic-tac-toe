@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const request = require('supertest');
+const nock = require('nock');
 const app = require('../app');
 
 
@@ -10,6 +11,22 @@ suite('app')
 let server;
 
 test('start server', function(done) {
+  // set up a nock for the slack client
+  nock('http://api.slack.com')
+  .get('/')
+  .reply(200, {
+    members: [
+      {
+        name: "Sadman",
+        id: 1
+      },
+      {
+        name: "Steve",
+        id: 2
+      }
+    ]
+  });
+
   server = app.listen(function() {
     done();
   });

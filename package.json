@@ -9,9 +9,9 @@
     "test": "mocha --ui qunit --bail --reporter spec test/*test.js",
     "start": "node bin/tic_tac_toe.js --port 3000"
   },
-  "repository" : {
-   "type" : "git",
-   "url" : "https://github.com/sh6khan/slack-tic-tac-toe.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sh6khan/slack-tic-tac-toe.git"
   },
   "author": "sh6khan@uwaterloo.ca",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "express": "^4.14.0",
     "lodash": "^4.16.4",
     "mocha": "^3.1.0",
+    "nock": "^8.0.0",
     "safestart": "1.0.0",
     "slack": "7.7.3",
     "supertest": "^2.0.0"

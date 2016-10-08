@@ -29,12 +29,13 @@ class SlackClient {
   * in memory under the channelUsers class variable
   */
   _getAllUsers() {
-    let token = Constants.SLACK_API_TOKEN;
+    let token = Constants.SLACK_API_TOKEN || 'local test token';
     var self = this;
 
     Slack.users.list({token: token}, function(err, data) {
 
       if (err) {
+        console.log(err);
         throw new Error('Received Error from Slack', err);
       }
 
