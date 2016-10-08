@@ -13,8 +13,9 @@ class CommandBase {
     }
 
     this.defaultAttachmentInfo = {
-      title: 'TicTacToe',
+      title: 'Slack Challenge',
       color: '#2FA44F',
+      mrkdwn_in: ['text']
     }
   }
 
