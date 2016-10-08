@@ -2,13 +2,18 @@
   "name": "slackbot",
   "version": "1.0.0",
   "description": "slackbot for playing tic toe for the slack coding challenge",
-  "main": "index.js",
   "scripts": {
-    "test": "mocha --ui qunit --bail --reporter spec test/*test.js"
+    "test": "mocha --ui qunit --bail --reporter spec test/*test.js",
+    "start": "node bin/tic_tac_toe.js --port 3000"
   },
   "author": "sh6khan@uwaterloo.ca",
   "license": "ISC",
   "dependencies": {
-    "mocha": "^3.1.0"
+    "body-parser": "1.15.2",
+    "express": "^4.14.0",
+    "lodash": "^4.16.4",
+    "mocha": "^3.1.0",
+    "safestart": "1.0.0",
+    "slack": "7.7.3"
   }
 }

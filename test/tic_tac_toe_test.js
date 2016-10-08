@@ -22,11 +22,29 @@ test('it should allow placing moves for the game', function(done) {
   let playerTwo = new Player("O");
   let game = new TicTacToe(playerOne, playerTwo);
 
-  game.placeMove(0, 0, playerOne);
-  game.placeMove(1, 1, playerTwo);
-  game.placeMove(1, 0, playerOne);
-  game.placeMove(2, 2, playerTwo);
-  game.placeMove(2, 0, playerOne);
+  game.placeMove("A", playerOne);
+  game.placeMove("D", playerTwo);
+  game.placeMove("E", playerOne);
+  game.placeMove("G", playerTwo);
+  game.placeMove("H", playerOne);
+  
+  done();
+});
+
+test('it should be able to show remaining cells', function(done) {
+  let playerOne = new Player("X");
+  let playerTwo = new Player("O");
+  let game = new TicTacToe(playerOne, playerTwo);
+
+
+  game.placeMove("A", playerOne);
+  game.placeMove("D", playerTwo);
+  game.placeMove("E", playerOne);
+  game.placeMove("G", playerTwo);
+  game.placeMove("H", playerOne);
+
+  let expected = ["B", "C", "F", "I"];
+  assert.deepEqual(expected, game.remainingMoves());
 
   done();
 });
