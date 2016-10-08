@@ -1,10 +1,17 @@
 {
   "name": "slackbot",
   "version": "1.0.0",
+  "engines": {
+    "node": "5.9.1"
+  },
   "description": "slackbot for playing tic toe for the slack coding challenge",
   "scripts": {
     "test": "mocha --ui qunit --bail --reporter spec test/*test.js",
     "start": "node bin/tic_tac_toe.js --port 3000"
+  },
+  "repository" : {
+   "type" : "git",
+   "url" : "https://github.com/sh6khan/slack-tic-tac-toe.git"
   },
   "author": "sh6khan@uwaterloo.ca",
   "license": "ISC",
