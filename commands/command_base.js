@@ -38,6 +38,7 @@ class CommandBase {
   sendResponse(res, fullResponse) {
     res.set('content-type', 'application/json');
     res.status(200).json(fullResponse);
+    console.log('done');
   }
 
   hanldeCommand() {

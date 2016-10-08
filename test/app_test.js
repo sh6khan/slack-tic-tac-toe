@@ -41,10 +41,18 @@ test('GET /', function(done) {
 test('POST /command help', function(done) {
   request(app)
   .post('/command')
-  .send({
-    channel_id: "111",
-    text: "help"
-  })
+  .send(
+    { token: 'RNyL8BMCMIaDNgPpZ1AqXVbC',
+      team_id: 'T2M0FDQUU',
+      team_domain: 'sadman-slack-test',
+      channel_id: 'C2M127AUA',
+      channel_name: 'general',
+      user_id: 'U2LUGLNE7',
+      user_name: 'sadman',
+      command: '/ttc',
+      text: 'help',
+      response_url: 'https://hooks.slack.com/commands/T2M0FDQUU/89117310900/5fl3AwUEb4IpFoENvCewYUT9' }
+  )
   .end(function(err, resp) {
     assert.ifError(err);
     assert(resp);
