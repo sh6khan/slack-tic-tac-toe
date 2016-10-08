@@ -24,6 +24,8 @@ app.get('/', function(req, res) {
 app.post('/command', function(req, res) {
   let params = req.body
 
+  console.log(params);
+
   let commandAndArgs = params.text.split(" ")
   let mainCommand = commandAndArgs[0]
 
