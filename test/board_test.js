@@ -3,6 +3,7 @@
 const assert = require('assert');
 const Board = require('../lib/board');
 const Player = require('../lib/player');
+const Cell = require('../lib/cell');
 
 suite('board');
 
@@ -74,6 +75,152 @@ test('should not allow placing the same move twice', function(done) {
   assert.throws(function() {
     board.placeMove(0, 0, playerTwo);
   });
+
+  done();
+});
+
+test('should be able to able to tell the board is full', function(done) {
+  let board = new Board(3);
+  let playerOne = new Player("X");
+  let playerTwo = new Player("O");
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(0, 1, playerTwo);
+  board.placeMove(0, 2, playerOne);
+  board.placeMove(1, 0, playerTwo);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(1, 2, playerTwo);
+  board.placeMove(2, 0, playerOne);
+  board.placeMove(2, 1, playerTwo);
+  board.placeMove(2, 2, playerOne);
+
+  assert(board.finished);
+
+  done();
+});
+
+test('#_is_same_player', function(done) {
+  let board = new Board(3);
+  let playerOne = new Player("X");
+  let playerTwo = new Player("O");
+
+  let cells = [];
+
+  for(var i = 0; i < 10; i++) {
+    cells.push(new Cell(playerOne));
+  }
+
+  assert.equal(playerOne, board._is_same_player(cells));
+
+  cells[5] = new Cell(playerTwo);
+
+  assert.equal(null, board._is_same_player(cells));
+
+  done();
+});
+
+test('should be able determine a horizontal winner', function(done) {
+  let board = new Board(3);
+  let playerOne = new Player("X");
+  let playerTwo = new Player("O");
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(0, 1, playerOne);
+  board.placeMove(0, 2, playerOne);
+
+  assert.equal(playerOne, board.winner());
+
+  board.clear();
+
+  board.placeMove(1, 0, playerOne);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(1, 2, playerOne);
+
+  assert.equal(playerOne, board.winner());
+
+  board.clear();
+
+  board.placeMove(2, 0, playerTwo);
+  board.placeMove(2, 1, playerTwo);
+  board.placeMove(2, 2, playerTwo);
+
+  assert.equal(playerTwo, board.winner());
+
+  board.clear();
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(0, 2, playerOne);
+
+  assert.equal(null, board.winner());
+
+  done();
+});
+
+test('should be able to determine vertial winner', function(done) {
+  let board = new Board(3);
+  let playerOne = new Player("X");
+  let playerTwo = new Player("O");
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(1, 0, playerOne);
+  board.placeMove(2, 0, playerOne);
+
+  assert.equal(playerOne, board.winner());
+
+  board.clear();
+
+  board.placeMove(2, 1, playerOne);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(0, 1, playerOne);
+
+  assert.equal(playerOne, board.winner());
+
+  board.clear();
+
+  board.placeMove(0, 2, playerTwo);
+  board.placeMove(2, 2, playerTwo);
+  board.placeMove(1, 2, playerTwo);
+
+  assert.equal(playerTwo, board.winner());
+
+  board.clear();
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(1, 2, playerOne);
+
+  assert.equal(null, board.winner());
+
+  done();
+});
+
+test('should be able to determine diag winner', function(done) {
+  let board = new Board(3);
+  let playerOne = new Player("X");
+  let playerTwo = new Player("O");
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(2, 2, playerOne);
+
+  assert.equal(playerOne, board.winner());
+
+  board.clear();
+
+  board.placeMove(0, 0, playerOne);
+  board.placeMove(1, 1, playerOne);
+  board.placeMove(0, 2, playerOne);
+
+  assert.equal(null, board.winner());
+
+  board.clear();
+
+  board.placeMove(0, 2, playerTwo);
+  board.placeMove(1, 1, playerTwo);
+  board.placeMove(2, 0, playerTwo);
+
+  assert.equal(playerTwo, board.winner());
 
   done();
 });
