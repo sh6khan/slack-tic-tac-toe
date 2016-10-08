@@ -12,9 +12,8 @@ let gameTracker = new GameTracker();
 
 let app = express();
 
-app.use(bodyParser.json({
-  limit: 1024
-}));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.get('/', function(req, res) {
