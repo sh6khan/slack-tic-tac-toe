@@ -11,7 +11,6 @@ class HelpCommand extends CommandBase {
   *  return  a json response to slack to be rendered in the channel
   */
   hanldeCommand(game, params, res) {
-    console.log('help#handleCommand');
     let moves = game != null ? game.remainingMoves() : ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 
     const helpMessage = {
@@ -24,9 +23,6 @@ class HelpCommand extends CommandBase {
     const attachment = this.generateAttachment(helpMessage)
     const fullResponse = this.generateResponse(attachment, params);
 
-    console.log('attachment', attachment);
-    console.log('fullResponse', fullResponse);
-    
     this.sendResponse(res, fullResponse);
     return
   }

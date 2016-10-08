@@ -23,9 +23,6 @@ app.get('/', function(req, res) {
 app.post('/command', function(req, res) {
   let params = req.body
 
-  res.send("HI !");
-  return;
-
   let commandAndArgs = params.text.split(" ")
   let mainCommand = commandAndArgs[0]
 
@@ -33,9 +30,6 @@ app.post('/command', function(req, res) {
   let command = new CommandClass();
 
   let game = gameTracker.find_game(params.channel_id);
-
-  console.log(game);
-  console.log(command);
 
   command.hanldeCommand(game, params, res);
 });
