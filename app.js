@@ -1,12 +1,14 @@
 'use strict'
 
 const express = require('express');
-const SlackClient = require('./client/slack_client');
 const bodyParser = require('body-parser');
+const SlackClient = require('./client/slack_client');
+const GameTracker = require('./game_engine/game_tracker');
 const allCommands = require('./commands/index');
-const errorHandler = require('./middleware/error_handler')
+const errorHandler = require('./middleware/error_handler');
 
 let slackClient = new SlackClient();
+let gameTracker = new GameTracker();
 
 let app = express();
 
@@ -22,15 +24,15 @@ app.get('/', function(req, res) {
 app.post('/command', function(req, res) {
   let params = req.body
 
-  console.log(params);
-
   let commandAndArgs = params.text.split(" ")
   let mainCommand = commandAndArgs[0]
 
   let CommandClass = allCommands[mainCommand];
   let command = new CommandClass();
 
-  command.hanldeCommand(game, params);
+  let game = gameTracker.find_game(params.channel_id);
+
+  command.hanldeCommand(game, params, res);
 });
 
 

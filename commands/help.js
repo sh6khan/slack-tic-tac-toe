@@ -10,9 +10,9 @@ class HelpCommand extends CommandBase {
   /**
   *  return  a json response to slack to be rendered in the channel
   */
-  handleCommand(game, params, res) {
+  hanldeCommand(game, params, res) {
 
-    let moves = game != null ? game.remainingMoves() : ["A","B", "C", "D", "E", "F", "G", "H", "I"]
+    let moves = game != null ? game.remainingMoves() : ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 
     const helpMessage = {
       text: '`/ttc start [username]` play tictactoe with username' +
