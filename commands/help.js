@@ -10,14 +10,13 @@ class HelpCommand extends CommandBase {
   /**
   *  return  a json response to slack to be rendered in the channel
   */
-
   handleCommand(game, params, res) {
 
-    const remainingMoves = game.remainingMoves();
+    let moves = game != null ? game.remainingMoves() : ["A","B", "C", "D", "E", "F", "G", "H", "I"]
 
     const helpMessage = {
       text: '`/ttc start [username]` play tictactoe with username' +
-		        '\n`/ttc place [cell name]` place move on empty space ' + remainingMoves + ' of the board' +
+		        '\n`/ttc place [cell name]` place move on empty space ' + moves + ' of the board' +
             '\n`/tictactoe quit` quits the current game in the channel' +
             '\n`/tictactoe help`',
     }
@@ -25,8 +24,7 @@ class HelpCommand extends CommandBase {
     const attachment = this.generateAttachment(helpMessage)
     const fullResponse = this.generateResponse(attachment, params);
 
-    res.set('content-type', 'application/json')
-    res.status(200).json(msg)
+    this.sendResponse(res, fullResponse);
     return
   }
 }

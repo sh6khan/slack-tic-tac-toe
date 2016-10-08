@@ -3,6 +3,7 @@
 const express = require('express');
 const SlackClient = require('./client/slack_client');
 const bodyParser = require('body-parser');
+const allCommands = require('./commands/index');
 const errorHandler = require('./middleware/error_handler')
 
 let slackClient = new SlackClient();
@@ -19,9 +20,17 @@ app.get('/', function(req, res) {
 });
 
 app.post('/command', function(req, res) {
-  let payload = req.body
+  let params = req.body
 
+  console.log(params);
 
+  let commandAndArgs = params.text.split(" ")
+  let mainCommand = commandAndArgs[0]
+
+  let CommandClass = allCommands[mainCommand];
+  let command = new CommandClass();
+
+  command.hanldeCommand(game, params);
 });
 
 

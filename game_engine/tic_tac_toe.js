@@ -45,30 +45,51 @@ class TicTacToe {
     this.board = new Board(3);
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
+
+    // set the current player to be playerOne
+    this.players = [playerOne, playerTwo];
+    this.currentPlayer = playerOne;
+
+    // set the state of the game object
+    this.state = Status.ACTIVE;
   }
 
   /**
-  * Place a player move on the board based on the x and y coordinate
-  *                                                                                      dinate
-  * @param x {Int} - the X coordinate to be placed on the board
-  * @param y {Int} - the Y coordinate to be placed on the board
+  * Place a player move on the board.
+  *
+  * @param move {String} - let letter mapping to a coordinate on the board
   * @param player {Player} - the player making the move
   */
   placeMove(move, player) {
+    let results = {
+      winner: false,
+      tied: false,
+      err: null,
+    }
+
+    if (player != this.currentPlayer) {
+      results.err = 'Wrong Player';
+      return results;
+    }
+
+
+    // handle illegal moves
     let index = MoveMapping[move];
+    if (!index) {
+      results.err = "Invalid move";
+      return results;
+    }
+
     let row = index[0];
     let col = index[1];
 
-    //TODO validate here and return slack message
-    // on out of bounds error
-
     // validate the cell has not already been placed in
     const cell = this.board.get(row, col);
-
     if (cell) {
-      //TODO: Send a slack message indicating that
-      // this move has already been placed
+      results.err = "Cell full";
+      return results;
     }
+
 
     this.board.placeMove(row, col, player)
 
@@ -76,19 +97,28 @@ class TicTacToe {
     // check to see if there is a winner
     player = this.board.winner();
 
+    // if player object is not null that means we have a winner
+    // update the state of the game object
+    if (player) {
+      this._winner(player);
+      results.winner = true
+      return results;
+    }
 
-    // if (player) {
-    //   //TODO: message winner in slack channel
-    // }
+    // handle case where the latest move, tied the game
+    if (this.board.finished()) {
+      this._tied();
+      results.tied = true;
+      return results;
+    }
+
+    // if we reached here, the game is still active
+    // swap currentPlayer and continue the game
+    this._swapPlayer();
+
+    return results;
   }
 
-  /**
-  * Declare the player as the winner and update their global score
-  * according to a simplefied chess algoirthm
-  */
-  winner(player) {
-    console.log(player + ' is the winner !');
-  }
 
   /**
   * Determine the free cells for the current game
@@ -110,6 +140,32 @@ class TicTacToe {
     return remainingMoves;
   }
 
+  /**
+  * Declare the player as the winner and update
+  * the state of the current game
+  */
+  _winner(player) {
+    this.state = player == this.players[0] ? Status.PLAYERONE_WINNER : Status.PLAYERTWO_WINNER
+  }
+
+  /**
+  * Update the state of the game to be tied
+  */
+  _tied() {
+    this.state = Status.TIE
+  }
+
+  /**
+  * this function swaps the currentPlayer class variable to the other
+  * player
+  */
+  _swapPlayer() {
+    if (this.currentPlayer == this.players[0]) {
+      this.currentPlayer = this.players[1];
+    } else {
+      this.currentPlayer = this.players[0]
+    }
+  }
 
   /**
   * Validate move is coming from one of the players an not someone else

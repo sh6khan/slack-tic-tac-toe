@@ -35,6 +35,11 @@ class CommandBase {
     return Object.assign(this.defaultMessageInfo, response);
   }
 
+  sendResponse(res, fullResponse) {
+    res.set('content-type', 'application/json');
+    res.status(200).json(fullResponse);
+  }
+
   hanldeCommand() {
     throw new Error ('Implmentation should be in child class');
   }
