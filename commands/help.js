@@ -16,8 +16,8 @@ class HelpCommand extends CommandBase {
     const helpMessage = {
       text: '`/ttc start [username]` play tictactoe with username' +
 		        '\n`/ttc place [cell name]` place move on empty space ' + moves + ' of the board' +
-            '\n`/tictactoe quit` quits the current game in the channel' +
-            '\n`/tictactoe help`',
+            '\n`/ttc quit` quits the current game in the channel' +
+            '\n`/ttc help`',
     }
 
     const attachment = this.generateAttachment(helpMessage)
