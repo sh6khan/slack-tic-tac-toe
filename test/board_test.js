@@ -7,17 +7,15 @@ const Cell = require('../lib/cell');
 
 suite('board');
 
-test('should be able to Iniitalize a 3 by 3 grid', function(done) {
+test('should be able to Iniitalize a 3 by 3 grid', function() {
   let board = new Board(3);
   let grid = board.grid;
 
   assert.equal(3, grid.length);
   assert.equal(3, grid[0].length);
-
-  done();
 });
 
-test('should allow placing moves on the board', function(done) {
+test('should allow placing moves on the board', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -37,11 +35,9 @@ test('should allow placing moves on the board', function(done) {
   cell = board.get(2, 1);
   assert("X", cell.symbol);
   assert(playerOne, cell.player);
-
-  done();
 });
 
-test('should raise errors if trying to index ouf of range', function(done){
+test('should raise errors if trying to index ouf of range', function(){
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -57,11 +53,9 @@ test('should raise errors if trying to index ouf of range', function(done){
   assert.throws(function() {
     board.placeMove(5, -1, playerOne);
   });
-
-  done();
 });
 
-test('should not allow placing the same move twice', function(done) {
+test('should not allow placing the same move twice', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("Y");
@@ -75,11 +69,9 @@ test('should not allow placing the same move twice', function(done) {
   assert.throws(function() {
     board.placeMove(0, 0, playerTwo);
   });
-
-  done();
 });
 
-test('should be able to able to tell the board is full', function(done) {
+test('should be able to able to tell the board is full', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -95,11 +87,9 @@ test('should be able to able to tell the board is full', function(done) {
   board.placeMove(2, 2, playerOne);
 
   assert(board.finished);
-
-  done();
 });
 
-test('#_is_same_player', function(done) {
+test('#_is_same_player', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -115,11 +105,9 @@ test('#_is_same_player', function(done) {
   cells[5] = new Cell(playerTwo);
 
   assert.equal(null, board._is_same_player(cells));
-
-  done();
 });
 
-test('should be able determine a horizontal winner', function(done) {
+test('should be able determine a horizontal winner', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -153,11 +141,9 @@ test('should be able determine a horizontal winner', function(done) {
   board.placeMove(0, 2, playerOne);
 
   assert.equal(null, board.winner());
-
-  done();
 });
 
-test('should be able to determine vertial winner', function(done) {
+test('should be able to determine vertial winner', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -191,11 +177,9 @@ test('should be able to determine vertial winner', function(done) {
   board.placeMove(1, 2, playerOne);
 
   assert.equal(null, board.winner());
-
-  done();
 });
 
-test('should be able to determine diag winner', function(done) {
+test('should be able to determine diag winner', function() {
   let board = new Board(3);
   let playerOne = new Player("X");
   let playerTwo = new Player("O");
@@ -221,6 +205,4 @@ test('should be able to determine diag winner', function(done) {
   board.placeMove(2, 0, playerTwo);
 
   assert.equal(playerTwo, board.winner());
-
-  done();
 });

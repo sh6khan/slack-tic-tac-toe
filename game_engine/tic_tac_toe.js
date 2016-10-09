@@ -119,6 +119,31 @@ class TicTacToe {
     return results;
   }
 
+  /**
+  * Generate a text representation of the current board
+  * @return String
+  */
+  generateBoardText() {
+    let cells = [];
+    let cell;
+    for(var row = 0; row < this.board.size; row++) {
+      for(var col = 0; col < this.board.size; col++) {
+        cell = this.board.get(row, col);
+        cell = cell == undefined ? ReverseMoveMapping[row][col] : cell.symbol;
+        cells.push(cell);
+      }
+    }
+
+    let board =
+    cells[0] + ' | ' + cells[1] + ' | ' + cells[2] +
+    '\n-------------------' +
+    '\n' + cells[3] + ' | ' + cells[4] + ' | ' + cells[5] +
+    '\n-------------------' +
+    '\n' + cells[6] + ' | ' + cells[7] + ' | ' + cells[8];
+
+    return board;
+  }
+
 
   /**
   * Determine the free cells for the current game

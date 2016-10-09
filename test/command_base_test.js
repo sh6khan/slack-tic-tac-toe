@@ -4,7 +4,7 @@ const CommandBase = require('../commands/command_base');
 
 suite ('CommandBase');
 
-test('it should be able to generate attachments', function(done) {
+test('it should be able to generate attachments', function() {
   let commandBase = new CommandBase();
 
   const message = {
@@ -19,10 +19,9 @@ test('it should be able to generate attachments', function(done) {
   }
 
   assert.deepEqual(expected, commandBase.generateAttachment(message));
-  done();
 });
 
-test('it should be able to generate full responses', function(done) {
+test('it should be able to generate full responses', function() {
   let commandBase = new CommandBase();
 
   const attachmentObject = {
@@ -45,6 +44,5 @@ test('it should be able to generate full responses', function(done) {
     username: 'Tiko'
   }
 
-  assert.deepEqual(expectedFullResponse, commandBase.generateResponse(attachmentObject, params));
-  done();
+  assert.deepEqual(expectedFullResponse, commandBase.generateResponse(attachmentObject, params.channel_name));
 });

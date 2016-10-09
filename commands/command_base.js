@@ -19,16 +19,26 @@ class CommandBase {
     }
   }
 
+  /**
+  * This function will send a message to the slack channel
+  */
+  messageChannel(message, channel_name, res) {
+    let attachmentObject = this.generateAttachment(message);
+    let fullResponse = this.generateResponse(attachmentObject, channel_name);
+
+    this.sendResponse(res, fullResponse);
+  }
+
   generateAttachment(message) {
     return Object.assign(this.defaultAttachmentInfo, message);
   }
 
-  generateResponse(attachmentObject, params) {
+  generateResponse(attachmentObject, channel_name) {
     let attachments = [];
     attachments.push(attachmentObject);
 
     const response = {
-      channel: params.channel_name,
+      channel: channel_name,
       attachments: attachments
     };
 

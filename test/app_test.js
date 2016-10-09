@@ -12,19 +12,19 @@ let server;
 
 test('start server', function(done) {
   // set up a nock for the slack client
-  nock('http://api.slack.com')
-  .get('/')
+  const nockMembers = [
+    {username: "sadman", id: 1},
+    {username: "obama", id: 2},
+    {username: "washington", id: 3},
+    {username: "thomas", id: 4},
+    {username: "jefferson", id: 5},
+    {username: "hamilton", id: 6},
+  ]
+
+  nock('https://slack.com/api')
+  .post('/users.list')
   .reply(200, {
-    members: [
-      {
-        name: "Sadman",
-        id: 1
-      },
-      {
-        name: "Steve",
-        id: 2
-      }
-    ]
+    members: nockMembers
   });
 
   server = app.listen(function() {

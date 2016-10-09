@@ -12,6 +12,8 @@ let gameTracker = new GameTracker();
 
 let app = express();
 
+slackClient.getAllUsers();
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -22,18 +24,28 @@ app.get('/', function(req, res) {
 
 app.post('/command', function(req, res) {
   let params = req.body
+  let command;
+  let mainCommand;
+  let CommandClass;
+  let commandAndArgs;
 
-  console.log(params);
+  //console.log(params);
 
-  let commandAndArgs = params.text.split(" ")
-  let mainCommand = commandAndArgs[0]
+  commandAndArgs = params.text.split(" ")
+  mainCommand = commandAndArgs[0]
 
-  let CommandClass = allCommands[mainCommand];
-  let command = new CommandClass();
+  CommandClass = allCommands[mainCommand];
 
-  let game = gameTracker.find_game(params.channel_id);
+  // trigger the uknownCommand Class
+  if (!CommandClass) {
+    CommandClass = allCommands.unkown;
+    command = new CommandClass();
+    command.handleCommand(mainCommand, params, res);
+    return;
+  }
 
-  command.hanldeCommand(game, params, res);
+  command = new CommandClass();
+  command.hanldeCommand(gameTracker, params, res);
 });
 
 
