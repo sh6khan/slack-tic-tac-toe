@@ -31,22 +31,6 @@ class QuitCommand extends CommandBase {
     return;
   }
 
-
-  /**
-  * No broadcaseted game found for this user
-  *
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _gameNotFound(params, res) {
-    const message = {
-      text: 'couldn\'t find game where you were challenged' +
-            '\n`/ttc challenge [@username] [symbol]` to challenge someone else'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
   /**
   * The wrong user tried to quit the game
   *

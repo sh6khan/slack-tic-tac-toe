@@ -19,7 +19,7 @@ class MoveCommand extends CommandBase {
     let args = params.text.split(' ');
 
     if (args.length < 2) {
-      this._wrongNumberArg(params, res);
+      this._missingArgs(params, res);
       return;
     }
 
@@ -60,24 +60,7 @@ class MoveCommand extends CommandBase {
   }
 
   /**
-  * No broadcaseted game found for this user
-  *
-  * @param game {TicTacToe}
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _printBoard(game, params, res) {
-    let board = game.generateBoardText();
-    const message = {
-      text: board +
-            '\n\n @'+ game.currentPlayer.username + '! go get em!'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
-  /**
-  * we have a winner !!
+  * The game is tied
   *
   * @param params {Object} - params received from Slack
   * @param res {Object} - the response object to post back to channel
@@ -125,7 +108,7 @@ class MoveCommand extends CommandBase {
   }
 
   /**
-  * Invalid move
+  * Wrong player
   *
   * @param params {Object} - params received from Slack
   * @param res {Object} - the response object to post back to channel
@@ -158,25 +141,10 @@ class MoveCommand extends CommandBase {
   * @param params {Object} - params received from Slack
   * @param res {Object} - the response object to post back to channel
   */
-  _wrongNumberArg(params, res) {
+  _missingArgs(params, res) {
     const message = {
       text: 'wrong number of args' +
             '\n`/ttc move [cell] to make a move'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
-  /**
-  * No broadcaseted game found for this user
-  *
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _gameNotFound(params, res) {
-    const message = {
-      text: 'couldn\'t find game where you were challenged' +
-            '\n`/ttc challenge [@username] [symbol]` to challenge someone else'
     }
 
     this.messageChannel(message, params.channel_name, res);

@@ -62,20 +62,6 @@ class ChallengeCommand extends CommandBase {
   }
 
   /**
-  * message the channel when there is already an active game
-  *
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _gameAlreadyInChannel(params, res) {
-    const message = {
-      text: 'This channel already has a game running'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
-  /**
   * message the channel when challenger is missing args
   *
   * @param params {Object} - params received from Slack
@@ -106,7 +92,7 @@ class ChallengeCommand extends CommandBase {
   }
 
   /**
-  * message the channel when there is no challengee
+  * The challenge and the challengee is the same
   *
   * @param params {Object} - params received from Slack
   * @param res {Object} - the response object to post back to channel
@@ -120,7 +106,7 @@ class ChallengeCommand extends CommandBase {
   }
 
   /**
-  * message the channel when there is no challengee
+  * success challenge sent
   *
   * @param params {Object} - params received from Slack
   * @param res {Object} - the response object to post back to channel

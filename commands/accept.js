@@ -51,20 +51,6 @@ class AcceptCommand extends CommandBase {
   }
 
   /**
-  * message the channel when there is already an active game
-  *
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _gameAlreadyInChannel(params, res) {
-    const message = {
-      text: 'This channel already has a game running'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
-  /**
   * message the channel when challenger is missing args
   *
   * @param params {Object} - params received from Slack
@@ -74,38 +60,6 @@ class AcceptCommand extends CommandBase {
     const message = {
       text: '`/ttc accept [symbol]` to accept a challenge' +
             '\n `/ttc accept :fire:` (example)'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
-  /**
-  * No broadcaseted game found for this user
-  *
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _gameNotFound(params, res) {
-    const message = {
-      text: 'couldn\'t find game where you were challenged' +
-            '\n`/ttc challenge [@username] [symbol]` to challenge someone else'
-    }
-
-    this.messageChannel(message, params.channel_name, res);
-  }
-
-  /**
-  * No broadcaseted game found for this user
-  *
-  * @param game {TicTacToe}
-  * @param params {Object} - params received from Slack
-  * @param res {Object} - the response object to post back to channel
-  */
-  _printBoard(game, params, res) {
-    let board = game.generateBoardText();
-    const message = {
-      text: board +
-            '\n\n @'+ game.currentPlayer.username + '! go get em!'
     }
 
     this.messageChannel(message, params.channel_name, res);
