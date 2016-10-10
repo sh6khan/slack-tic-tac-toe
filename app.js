@@ -29,7 +29,7 @@ app.post('/command', function(req, res) {
   let CommandClass;
   let commandAndArgs;
 
-  console.log(params);
+  //console.log(params);
 
   commandAndArgs = params.text.split(" ")
   mainCommand = commandAndArgs[0]

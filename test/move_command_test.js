@@ -78,9 +78,9 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
-  let expect = 'A | B | C\n-------------------\n' +
-               'D | E | F\n-------------------\n' +
-               'G | H | I\n\n @sadman! go get em!';
+  let expect = 'A   |   B   |   C\n---------------------\n' +
+               'D   |   E   |   F\n---------------------\n' +
+               'G   |   H   |   I\n\n @sadman! go get em!';
 
   request(app)
   .post('/command')
@@ -95,9 +95,9 @@ test('POST /ttc move A, should be able to mark cell', function(done) {
   let json = baseJSON;
   json.text = "move A";
   json.user_name = 'sadman';
-  let expect = ':parrot: | B | C\n-------------------\n' +
-               'D | E | F\n-------------------\n' +
-               'G | H | I\n\n @obama! go get em!';
+  let expect = ':parrot:   |   B   |   C\n---------------------\n' +
+               'D   |   E   |   F\n---------------------\n' +
+               'G   |   H   |   I\n\n @obama! go get em!';
 
   request(app)
   .post('/command')
@@ -127,9 +127,9 @@ test('POST /ttc move D, good move', function(done) {
   let json = baseJSON;
   json.text = "move D";
   json.user_name = 'obama';
-  let expect = ':parrot: | B | C\n-------------------\n' +
-               ':100: | E | F\n-------------------\n' +
-               'G | H | I\n\n @sadman! go get em!';
+  let expect = ':parrot:   |   B   |   C\n---------------------\n' +
+               ':100:   |   E   |   F\n---------------------\n' +
+               'G   |   H   |   I\n\n @sadman! go get em!';
 
   request(app)
   .post('/command')
@@ -144,9 +144,9 @@ test('POST /ttc move B, good move', function(done) {
   let json = baseJSON;
   json.text = "move B";
   json.user_name = 'sadman';
-  let expect = ':parrot: | :parrot: | C\n-------------------\n' +
-               ':100: | E | F\n-------------------\n' +
-               'G | H | I\n\n @obama! go get em!';
+  let expect = ':parrot:   |   :parrot:   |   C\n---------------------\n' +
+               ':100:   |   E   |   F\n---------------------\n' +
+               'G   |   H   |   I\n\n @obama! go get em!';
 
   request(app)
   .post('/command')
@@ -161,10 +161,9 @@ test('POST /ttc move G, good move', function(done) {
   let json = baseJSON;
   json.text = "move G";
   json.user_name = 'obama';
-  let expect = ':parrot: | :parrot: | C\n-------------------\n' +
-               ':100: | E | F\n-------------------\n' +
-               ':100: | H | I\n\n @sadman! go get em!';
-
+  let expect = ':parrot:   |   :parrot:   |   C\n---------------------\n' +
+               ':100:   |   E   |   F\n---------------------\n' +
+               ':100:   |   H   |   I\n\n @sadman! go get em!';
   request(app)
   .post('/command')
   .send(json)
@@ -178,9 +177,9 @@ test('POST /ttc move C, winner', function(done) {
   let json = baseJSON;
   json.text = "move C";
   json.user_name = 'sadman';
-  let expect = ':parrot: | :parrot: | :parrot:\n-------------------\n' +
-               ':100: | E | F\n-------------------\n' +
-               ':100: | H | I\n\@sadman IS THE WINNER';
+  let expect = ':parrot:   |   :parrot:   |   :parrot:\n---------------------\n' +
+               ':100:   |   E   |   F\n---------------------\n' +
+               ':100:   |   H   |   I\n\@sadman IS THE WINNER';
 
   request(app)
   .post('/command')

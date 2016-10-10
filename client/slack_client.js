@@ -23,7 +23,6 @@ class SlackClient {
   * @return undefined - if user does not exist
   */
   getUserId(username) {
-    console.log(teamUsers);
     return teamUsers[username];
   }
 

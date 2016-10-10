@@ -45,13 +45,13 @@ class MoveCommand extends CommandBase {
 
     if (results.winner) {
       this._winner(game, params, res);
-      game.removeGame(params.channel_id, game);
+      gameTracker.removeGame(params.channel_id, game);
       return;
     }
 
     if (results.tied) {
       this._tied(params, res);
-      game.removeGame(params.channel_id, game);
+      gameTracker.removeGame(params.channel_id, game);
       return;
     }
 

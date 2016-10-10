@@ -78,9 +78,9 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
-  let expect = 'A | B | C\n-------------------\n' +
-               'D | E | F\n-------------------\n' +
-               'G | H | I\n\n @sadman! go get em!';
+  let expect = 'A   |   B   |   C\n---------------------\n' +
+               'D   |   E   |   F\n---------------------\n' +
+               'G   |   H   |   I\n\n @sadman! go get em!';
 
   request(app)
   .post('/command')
