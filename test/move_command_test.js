@@ -7,15 +7,16 @@ const app = require('../app');
 const GameTracker = require('../game_engine/game_tracker');
 const SlackClient = require('../client/slack_client');
 
-suite('Status Command')
+suite('Move Command');
 
+let server;
 let gameTracker = new GameTracker();
 
 let baseJSON = {
   token: '<test_token>',
   team_id: '<test_team_id>',
   team_domain: 'sadman-slack-test',
-  channel_id: '222222',
+  channel_id: '333333',
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
@@ -45,6 +46,7 @@ test('start server', function(done) {
   let slackClient = new SlackClient();
   slackClient.getAllUsers(done);
 });
+
 
 test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
@@ -84,27 +86,106 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   .post('/command')
   .send(json)
   .end(function(err, resp) {
-    assert.ifError(err);
-    assert(resp);
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
 });
 
-test('POST /ttc status, should print current board', function(done) {
+test('POST /ttc move A, should be able to mark cell', function(done) {
   let json = baseJSON;
-  json.text = 'status';
-  json.user_name = 'thomas';
-  let expect = 'A | B | C\n-------------------\n' +
+  json.text = "move A";
+  json.user_name = 'sadman';
+  let expect = ':parrot: | B | C\n-------------------\n' +
                'D | E | F\n-------------------\n' +
+               'G | H | I\n\n @obama! go get em!';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttc move A, cell full', function(done) {
+  let json = baseJSON;
+  json.text = "move A";
+  json.user_name = 'obama';
+  let expect = 'That cell is full';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttc move D, good move', function(done) {
+  let json = baseJSON;
+  json.text = "move D";
+  json.user_name = 'obama';
+  let expect = ':parrot: | B | C\n-------------------\n' +
+               ':100: | E | F\n-------------------\n' +
                'G | H | I\n\n @sadman! go get em!';
 
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
-    assert.ifError(err);
-    assert(resp);
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttc move B, good move', function(done) {
+  let json = baseJSON;
+  json.text = "move B";
+  json.user_name = 'sadman';
+  let expect = ':parrot: | :parrot: | C\n-------------------\n' +
+               ':100: | E | F\n-------------------\n' +
+               'G | H | I\n\n @obama! go get em!';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttc move G, good move', function(done) {
+  let json = baseJSON;
+  json.text = "move G";
+  json.user_name = 'obama';
+  let expect = ':parrot: | :parrot: | C\n-------------------\n' +
+               ':100: | E | F\n-------------------\n' +
+               ':100: | H | I\n\n @sadman! go get em!';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttc move C, winner', function(done) {
+  let json = baseJSON;
+  json.text = "move C";
+  json.user_name = 'sadman';
+  let expect = ':parrot: | :parrot: | :parrot:\n-------------------\n' +
+               ':100: | E | F\n-------------------\n' +
+               ':100: | H | I\n\@sadman IS THE WINNER';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });

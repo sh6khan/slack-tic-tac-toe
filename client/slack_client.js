@@ -42,10 +42,9 @@ class SlackClient {
       // back up the call stack as it is very critical
       if (err) {
         console.log(err);
-        throw new Error('Received Error from Slack', err);
+        //throw new Error('Received Error from Slack', err);
+        return cb();
       }
-
-      console.log(data);
 
       const members = data.members
       let member;

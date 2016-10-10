@@ -29,12 +29,12 @@ let baseJSON = {
 test('start server', function(done) {
   // set up a nock for the slack client
   const nockMembers = [
-    {username: "sadman", id: 1},
-    {username: "obama", id: 2},
-    {username: "washington", id: 3},
-    {username: "thomas", id: 4},
-    {username: "jefferson", id: 5},
-    {username: "hamilton", id: 6},
+    {name: "sadman", id: 1},
+    {name: "obama", id: 2},
+    {name: "washington", id: 3},
+    {name: "thomas", id: 4},
+    {name: "jefferson", id: 5},
+    {name: "hamilton", id: 6},
   ]
 
   nock('https://slack.com/api')
