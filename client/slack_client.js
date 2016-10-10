@@ -53,7 +53,7 @@ class SlackClient {
       // place members in teamUsers
       for(var i = 0; i < members.length; i++) {
         member = members[i];
-        teamUsers[member.username] = member.id;
+        teamUsers[member.name] = member.id;
       }
 
       cb();
