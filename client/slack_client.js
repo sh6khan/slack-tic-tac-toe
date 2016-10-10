@@ -23,6 +23,7 @@ class SlackClient {
   * @return undefined - if user does not exist
   */
   getUserId(username) {
+    console.log(teamUsers);
     return teamUsers[username];
   }
 
@@ -44,6 +45,7 @@ class SlackClient {
         throw new Error('Received Error from Slack', err);
       }
 
+      console.log(data);
 
       const members = data.members
       let member;
