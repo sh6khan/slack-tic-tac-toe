@@ -7,8 +7,7 @@ const app = require('../app');
 const GameTracker = require('../game_engine/game_tracker');
 const SlackClient = require('../client/slack_client');
 
-
-suite('Accept Command')
+suite('Quit Command')
 
 let server;
 let gameTracker = new GameTracker();
@@ -17,13 +16,13 @@ let baseJSON = {
   token: '<test_token>',
   team_id: '<test_team_id>',
   team_domain: 'sadman-slack-test',
-  channel_id: 'C2M127AUA',
+  channel_id: '222222',
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
   command: '/ttc',
   text: 'challenge',
-  response_url: 'https://hooks.slack.com/commands/T2M0FDQUU/89117310900/5fl3AwUEb4IpFoENvCewYUT9'
+  response_url: 'https://hooks.slack.com/commands/randomfakeurl'
 }
 
 test('start server', function(done) {
@@ -47,6 +46,7 @@ test('start server', function(done) {
   let slackClient = new SlackClient();
   slackClient.getAllUsers(done);
 });
+
 
 test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
@@ -93,36 +93,37 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   });
 });
 
-test('POST /ttc accept :100: if game already in channel', function(done) {
+test('POST /ttc quit, should not quit from wrong user', function(done) {
   let json = baseJSON;
-  json.text = "accept :100:";
-  let expect = 'This channel already has a game running';
+  json.text = "quit";
+  json.user_name = 'thomas';
+  let expect = '@thomas you can\'t quit the current game, your not playing.'
 
   request(app)
-   .post('/command')
-   .send(json)
-   .end(function(err, resp) {
-     assert.ifError(err);
-     assert(resp);
-     assert.equal(expect, resp.body.attachments[0].text);
-     done();
-   });
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.ifError(err);
+    assert(resp);
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
 });
 
-test('POST /ttc accept :100: if never challenged', function(done) {
+
+test('POST /ttc quit, should quit the game', function(done) {
   let json = baseJSON;
-  json.text = "accept :100:";
-  json.channel_id = "1111";
-  let expect = 'couldn\'t find game where you were challenged' +
-             '\n`/ttc challenge [@username] [symbol]` to challenge someone else';
+  json.text = "quit";
+  json.user_name = 'obama';
+  let expect = '@obama quit the game :cry:';
 
   request(app)
-   .post('/command')
-   .send(json)
-   .end(function(err, resp) {
-     assert.ifError(err);
-     assert(resp);
-     assert.equal(expect, resp.body.attachments[0].text);
-     done();
-   });
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.ifError(err);
+    assert(resp);
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
 });

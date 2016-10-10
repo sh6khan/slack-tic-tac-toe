@@ -45,7 +45,7 @@ app.post('/command', function(req, res) {
   }
 
   command = new CommandClass();
-  command.hanldeCommand(gameTracker, params, res);
+  command.handleCommand(gameTracker, params, res);
 });
 
 

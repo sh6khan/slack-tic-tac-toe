@@ -9,7 +9,7 @@ class ChallengeCommand extends CommandBase {
     this.slackClient = new SlackClient();
   }
 
-  hanldeCommand(gameTracker, params, res) {
+  handleCommand(gameTracker, params, res) {
     let game = gameTracker.find_game(params.channel_id);
 
     if (game) {

@@ -50,7 +50,7 @@ class CommandBase {
     res.status(200).json(fullResponse);
   }
 
-  hanldeCommand() {
+  handleCommand() {
     throw new Error ('Implmentation should be in child class');
   }
 }

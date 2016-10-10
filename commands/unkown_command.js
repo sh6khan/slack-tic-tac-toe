@@ -7,7 +7,7 @@ class UnkownCommand extends CommandBase {
     super();
   }
 
-  hanldeCommand(cmd, params, res) {
+  handleCommand(cmd, params, res) {
     const unkownCommandMessage = {
       text: 'Hmm I have no idea what ' + cmd + ' is. type `/ttc help` to see all the things I can do`' +
             '\n In the mean time, here are some other things I dont know how to do' +

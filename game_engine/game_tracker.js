@@ -103,7 +103,7 @@ class GameTracker {
   /**
   * remove active game from channel if the game is over
   */
-  remove_game(channelId, game) {
+  removeGame(channelId, game) {
     if (!allActiveTicTacToeGames[channelId]) {
       throw new Error('Active game for channel:' + channelId + ' not found');
     }

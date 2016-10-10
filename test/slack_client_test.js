@@ -25,14 +25,10 @@ before('set up global users list', function(done) {
     members: nockMembers
   });
 
-  slackClient.getAllUsers(function() {
-    done();
-  });
+  slackClient.getAllUsers(done);
 });
 
 test('it should be able to create a user list', function() {
-  let slackClient = new SlackClient();
-
   assert.equal(1, slackClient.getUserId("sadman"));
   assert.equal(2, slackClient.getUserId("obama"));
   assert.equal(3, slackClient.getUserId("washington"));

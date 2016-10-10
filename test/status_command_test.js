@@ -7,22 +7,21 @@ const app = require('../app');
 const GameTracker = require('../game_engine/game_tracker');
 const SlackClient = require('../client/slack_client');
 
-
-suite('Challenge Command')
+suite('Status Command')
 
 let gameTracker = new GameTracker();
 
 let baseJSON = {
-  token: 'RNyL8BMCMIaDNgPpZ1AqXVbC',
-  team_id: 'T2M0FDQUU',
+  token: '<test_token>',
+  team_id: '<test_team_id>',
   team_domain: 'sadman-slack-test',
-  channel_id: 'C2M333AUA',
+  channel_id: '222222',
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
   command: '/ttc',
   text: 'challenge',
-  response_url: 'https://hooks.slack.com/commands/T2M0FDQUU/89117310900/5fl3AwUEb4IpFoENvCewYUT9'
+  response_url: 'https://hooks.slack.com/commands/randomfakeurl'
 }
 
 test('start server', function(done) {
@@ -47,39 +46,6 @@ test('start server', function(done) {
   slackClient.getAllUsers(done);
 });
 
-test('POST /ttc challenge, missing challengee', function(done) {
-  let json = baseJSON
-  json.text = "challenge"
-  let expectedResponse = '`/ttc challenge [@username] [symbol]` to challenge someone' +
-                         '\n `/ttc challenge @slackbot :parrot:` (example)';
-
-  request(app)
-  .post('/command')
-  .send(json)
-  .end(function(err, resp) {
-    assert.ifError(err);
-    assert(resp);
-    assert.equal(expectedResponse, resp.body.attachments[0].text);
-    done();
-  });
-});
-
-test('POST /ttc challenge @randomperson :parrot:, no user', function(done) {
-  let json = baseJSON;
-  json.text = "challenge @randomuser :parrot:";
-  let expectedResponse = 'randomuser is not a team member :(';
-
-  request(app)
-  .post('/command')
-  .send(json)
-  .end(function(err, resp) {
-    assert.ifError(err);
-    assert(resp);
-    assert.equal(expectedResponse, resp.body.attachments[0].text);
-    done();
-  });
-});
-
 test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
   json.text = "challenge @obama :parrot:";
@@ -102,6 +68,44 @@ test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(d
       challengerSymbol: ":parrot:"
     }, broadcasted[0]);
 
+    done();
+  });
+});
+
+test('POST /ttc accept :100:, should be able to accept challenge', function(done) {
+  let json = baseJSON;
+  json.text = "accept :100:";
+  json.user_name = 'obama';
+  let expect = 'A | B | C\n-------------------\n' +
+               'D | E | F\n-------------------\n' +
+               'G | H | I\n\n @sadman! go get em!';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.ifError(err);
+    assert(resp);
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttc status, should print current board', function(done) {
+  let json = baseJSON;
+  json.text = 'status';
+  json.user_name = 'thomas';
+  let expect = 'A | B | C\n-------------------\n' +
+               'D | E | F\n-------------------\n' +
+               'G | H | I\n\n @sadman! go get em!';
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.ifError(err);
+    assert(resp);
+    assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
 });

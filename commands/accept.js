@@ -10,7 +10,7 @@ class AcceptCommand extends CommandBase {
     super();
   }
 
-  hanldeCommand(gameTracker, params, res) {
+  handleCommand(gameTracker, params, res) {
     let game = gameTracker.find_game(params.channel_id);
 
     if (game) {
