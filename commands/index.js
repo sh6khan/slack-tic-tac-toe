@@ -2,7 +2,7 @@
 
 const allCommands = {
   "help": require('./help'),
-  "unkown": require('./unkown_command'),
+  "unkown": require('./unkown'),
   "challenge": require('./challenge'),
   "accept": require('./accept'),
   "quit": require('./quit'),

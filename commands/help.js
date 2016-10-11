@@ -15,10 +15,10 @@ class HelpCommand extends CommandBase {
     let moves = game != null ? game.remainingMoves() : ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
 
     const helpMessage = {
-      text: '`/ttc challenge [@username] [symbol]` play tictactoe with <username> using the <sybmol>' +
-		        '\n`/ttc place [cell name]` place move on empty space ' + moves + ' of the board' +
-            '\n`/ttc quit` quits the current game in the channel' +
-            '\n`/ttc help`',
+      text: '`/ttt challenge [@username] [symbol]` play tictactoe with <username> using the <sybmol>' +
+		        '\n`/ttt place [cell name]` place move on empty space ' + moves + ' of the board' +
+            '\n`/ttt quit` quits the current game in the channel' +
+            '\n`/ttt help`',
     }
 
     this.messageChannel(helpMessage, params.channel_name, res);

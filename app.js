@@ -1,11 +1,13 @@
 'use strict'
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const SlackClient = require('./client/slack_client');
 const GameTracker = require('./game_engine/game_tracker');
 const allCommands = require('./commands/index');
 const errorHandler = require('./middleware/error_handler');
+const Constants = require('./constants');
 
 let slackClient = new SlackClient();
 let gameTracker = new GameTracker();
@@ -29,7 +31,10 @@ app.post('/command', function(req, res) {
   let CommandClass;
   let commandAndArgs;
 
-  //console.log(params);
+  // completly ignore the message if token does not match
+  if (params.token != Constants.MESSAGE_TOKEN) {
+    return;
+  }
 
   commandAndArgs = params.text.split(" ")
   mainCommand = commandAndArgs[0]

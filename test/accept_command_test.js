@@ -14,7 +14,7 @@ let server;
 let gameTracker = new GameTracker();
 
 let baseJSON = {
-  token: '<test_token>',
+  token: '123456',
   team_id: '<test_team_id>',
   team_domain: 'sadman-slack-test',
   channel_id: 'C2M127AUA',

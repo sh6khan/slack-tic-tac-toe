@@ -20,3 +20,5 @@ class UnkownCommand extends CommandBase {
     return
   }
 }
+
+module.exports = UnkownCommand

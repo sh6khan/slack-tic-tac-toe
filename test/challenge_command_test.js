@@ -13,7 +13,7 @@ suite('Challenge Command')
 let gameTracker = new GameTracker();
 
 let baseJSON = {
-  token: 'RNyL8BMCMIaDNgPpZ1AqXVbC',
+  token: '123456',
   team_id: 'T2M0FDQUU',
   team_domain: 'sadman-slack-test',
   channel_id: 'C2M333AUA',
