@@ -63,8 +63,8 @@ class AcceptCommand extends CommandBase {
   */
   _missingArgs(params, res) {
     const message = {
-      text: '`/ttc accept [:emoji:]` to accept a challenge' +
-            '\n `/ttc accept :fire:` (example)'
+      text: '`/ttt accept [:emoji:]` to accept a challenge' +
+            '\n `/ttt accept :fire:` (example)'
     }
 
     this.messageChannel(message, params.channel_name, res);

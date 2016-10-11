@@ -18,7 +18,7 @@ let baseJSON = {
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
-  command: '/ttc',
+  command: '/ttt',
   text: 'challenge',
   response_url: 'https://hooks.slack.com/commands/T2M0FDQUU/89117310900/5fl3AwUEb4IpFoENvCewYUT9'
 }
@@ -71,7 +71,7 @@ test('POST /command help', function(done) {
 test('POST /command nothing, should trigger the unkown command', function(done) {
   let json = baseJSON;
   json.text = "nothing"
-  let expect = 'Hmm I have no idea what nothing is. type `/ttc help` to see all the things I can do`' +
+  let expect = 'Hmm I have no idea what nothing is. type `/ttt help` to see all the things I can do`' +
               '\n In the mean time, here are some other things I dont know how to do' +
               '\n I cant play music' +
               '\n I can chill but I can\'t netflix :sadpanda:' +

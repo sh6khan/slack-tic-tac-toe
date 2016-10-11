@@ -20,7 +20,7 @@ let baseJSON = {
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
-  command: '/ttc',
+  command: '/ttt',
   text: 'challenge',
   response_url: 'https://hooks.slack.com/commands/randomfakeurl'
 }
@@ -63,11 +63,11 @@ test('start server', function(done) {
 });
 
 
-test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
+test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
   json.text = "challenge @obama :parrot:";
   let expectedResponse = "@obama! you have been challenged! " +
-                         "\n `/ttc accept [symbol]` to accept!`"
+                         "\n `/ttt accept [:emoji:]` to accept!`"
 
   request(app)
   .post('/command')
@@ -89,7 +89,7 @@ test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(d
   });
 });
 
-test('POST /ttc accept :100:, should be able to accept challenge', function(done) {
+test('POST /ttt accept :100:, should be able to accept challenge', function(done) {
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
@@ -106,7 +106,7 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   });
 });
 
-test('POST /ttc move A, should be able to mark cell', function(done) {
+test('POST /ttt move A, should be able to mark cell', function(done) {
   let json = baseJSON;
   json.text = "move A";
   json.user_name = 'sadman';
@@ -123,7 +123,7 @@ test('POST /ttc move A, should be able to mark cell', function(done) {
   });
 });
 
-test('POST /ttc move A, cell full', function(done) {
+test('POST /ttt move A, cell full', function(done) {
   let json = baseJSON;
   json.text = "move A";
   json.user_name = 'obama';
@@ -138,7 +138,7 @@ test('POST /ttc move A, cell full', function(done) {
   });
 });
 
-test('POST /ttc move D, good move', function(done) {
+test('POST /ttt move D, good move', function(done) {
   let json = baseJSON;
   json.text = "move D";
   json.user_name = 'obama';
@@ -155,7 +155,7 @@ test('POST /ttc move D, good move', function(done) {
   });
 });
 
-test('POST /ttc move B, good move', function(done) {
+test('POST /ttt move B, good move', function(done) {
   let json = baseJSON;
   json.text = "move B";
   json.user_name = 'sadman';
@@ -172,7 +172,7 @@ test('POST /ttc move B, good move', function(done) {
   });
 });
 
-test('POST /ttc move G, good move', function(done) {
+test('POST /ttt move G, good move', function(done) {
   let json = baseJSON;
   json.text = "move G";
   json.user_name = 'obama';
@@ -188,7 +188,7 @@ test('POST /ttc move G, good move', function(done) {
   });
 });
 
-test('POST /ttc move C, winner', function(done) {
+test('POST /ttt move C, winner', function(done) {
   let json = baseJSON;
   json.text = "move C";
   json.user_name = 'sadman';

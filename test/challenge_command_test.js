@@ -20,7 +20,7 @@ let baseJSON = {
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
-  command: '/ttc',
+  command: '/ttt',
   text: 'challenge',
   response_url: 'https://hooks.slack.com/commands/T2M0FDQUU/89117310900/5fl3AwUEb4IpFoENvCewYUT9'
 }
@@ -62,11 +62,11 @@ test('start server', function(done) {
   });
 });
 
-test('POST /ttc challenge, missing challengee', function(done) {
+test('POST /ttt challenge, missing challengee', function(done) {
   let json = baseJSON
   json.text = "challenge"
-  let expectedResponse = '`/ttc challenge [@username] [symbol]` to challenge someone' +
-                         '\n `/ttc challenge @slackbot :parrot:` (example)';
+  let expectedResponse = '`/ttt challenge [@username] [:emoji:]` to challenge someone' +
+                         '\n `/ttt challenge @slackbot :parrot:` (example)';
 
   request(app)
   .post('/command')
@@ -79,7 +79,7 @@ test('POST /ttc challenge, missing challengee', function(done) {
   });
 });
 
-test('POST /ttc challenge @randomperson :parrot:, no user', function(done) {
+test('POST /ttt challenge @randomperson :parrot:, no user', function(done) {
   let json = baseJSON;
   json.text = "challenge @randomuser :parrot:";
   let expectedResponse = 'randomuser is not a team member :(';
@@ -95,11 +95,11 @@ test('POST /ttc challenge @randomperson :parrot:, no user', function(done) {
   });
 });
 
-test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
+test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
   json.text = "challenge @obama :parrot:";
   let expectedResponse = "@obama! you have been challenged! " +
-                         "\n `/ttc accept [symbol]` to accept!`"
+                         "\n `/ttt accept [:emoji:]` to accept!`"
 
   request(app)
   .post('/command')

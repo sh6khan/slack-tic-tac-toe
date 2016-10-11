@@ -19,7 +19,7 @@ let baseJSON = {
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
-  command: '/ttc',
+  command: '/ttt',
   text: 'challenge',
   response_url: 'https://hooks.slack.com/commands/randomfakeurl'
 }
@@ -61,11 +61,11 @@ test('start server', function(done) {
   });
 });
 
-test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
+test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
   json.text = "challenge @obama :parrot:";
   let expectedResponse = "@obama! you have been challenged! " +
-                         "\n `/ttc accept [symbol]` to accept!`"
+                         "\n `/ttt accept [:emoji:]` to accept!`"
 
   request(app)
   .post('/command')
@@ -87,7 +87,7 @@ test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(d
   });
 });
 
-test('POST /ttc accept :100:, should be able to accept challenge', function(done) {
+test('POST /ttt accept :100:, should be able to accept challenge', function(done) {
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
@@ -104,7 +104,7 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   });
 });
 
-test('POST /ttc status, should print current board', function(done) {
+test('POST /ttt status, should print current board', function(done) {
   let json = baseJSON;
   json.text = 'status';
   json.user_name = 'thomas';

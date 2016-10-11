@@ -73,8 +73,8 @@ class ChallengeCommand extends CommandBase {
   */
   _missingArgs(params, res) {
     const message = {
-      text: '`/ttc challenge [@username] [symbol]` to challenge someone' +
-            '\n `/ttc challenge @slackbot :parrot:` (example)'
+      text: '`/ttt challenge [@username] [:emoji:]` to challenge someone' +
+            '\n `/ttt challenge @slackbot :parrot:` (example)'
     }
 
     this.messageChannel(message, params.channel_name, res);
@@ -118,7 +118,7 @@ class ChallengeCommand extends CommandBase {
   _announceBroadcast(challengee, params, res) {
     const message = {
       text: "@" + challengee + "! you have been challenged! " +
-            "\n `/ttc accept [symbol]` to accept!`"
+            "\n `/ttt accept [:emoji:]` to accept!`"
     }
 
     this.messageChannel(message, params.channel_name, res);

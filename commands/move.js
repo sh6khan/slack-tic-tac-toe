@@ -50,7 +50,7 @@ class MoveCommand extends CommandBase {
     }
 
     if (results.tied) {
-      this._tied(params, res);
+      this._tied(game, params, res);
       gameTracker.removeGame(params.channel_id, game);
       return;
     }
@@ -65,12 +65,24 @@ class MoveCommand extends CommandBase {
   * @param params {Object} - params received from Slack
   * @param res {Object} - the response object to post back to channel
   */
-  _tied(params, res) {
-    const message = {
-      text: 'the game is tied :cry:'
+  _tied(game, params, res) {
+    let board = game.generateBoardText();
+
+    const boardMessage = {
+      text: board
     }
 
-    this.messageChannel(message, params.channel_name, res);
+    const tiedMessage = {
+      text: 'The game is tied :cry:'
+    }
+
+    let attachments  = []
+    attachments.push(this.generateAttachment(boardMessage));
+    attachments.push(this.generateAttachment(tiedMessage));
+
+    let fullResponse = this.generateResponse(attachments, params.channel_name);
+
+    this.sendResponse(res, fullResponse);
   }
 
   /**
@@ -83,12 +95,21 @@ class MoveCommand extends CommandBase {
     let username = game.currentPlayer.username;
     let board = game.generateBoardText();
 
-    const message = {
-      text: board +
-            '\n@' + username + ' IS THE WINNER'
+    const boardMessage = {
+      text: board
     }
 
-    this.messageChannel(message, params.channel_name, res);
+    const winnerMessage = {
+      text: '@'+ username + '! is the winner :smile:'
+    }
+
+    let attachments  = []
+    attachments.push(this.generateAttachment(boardMessage));
+    attachments.push(this.generateAttachment(winnerMessage));
+
+    let fullResponse = this.generateResponse(attachments, params.channel_name);
+
+    this.sendResponse(res, fullResponse);
   }
 
   /**
@@ -142,7 +163,7 @@ class MoveCommand extends CommandBase {
   _missingArgs(params, res) {
     const message = {
       text: 'wrong number of args' +
-            '\n`/ttc move [cell] to make a move'
+            '\n`/ttt move [cell] to make a move'
     }
 
     this.messageChannel(message, params.channel_name, res);

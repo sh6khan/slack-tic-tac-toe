@@ -21,7 +21,7 @@ let baseJSON = {
   channel_name: 'general',
   user_id: 'U2LUGLNE7',
   user_name: 'sadman',
-  command: '/ttc',
+  command: '/ttt',
   text: 'challenge',
   response_url: 'https://hooks.slack.com/commands/T2M0FDQUU/89117310900/5fl3AwUEb4IpFoENvCewYUT9'
 }
@@ -63,11 +63,11 @@ test('start server', function(done) {
   });
 });
 
-test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
+test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
   json.text = "challenge @obama :parrot:";
   let expectedResponse = "@obama! you have been challenged! " +
-                         "\n `/ttc accept [symbol]` to accept!`"
+                         "\n `/ttt accept [:emoji:]` to accept!`"
 
   request(app)
   .post('/command')
@@ -89,7 +89,7 @@ test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(d
   });
 });
 
-test('POST /ttc accept :ranomd:, invalid emoji', function(done) {
+test('POST /ttt accept :ranomd:, invalid emoji', function(done) {
   let json = baseJSON;
   json.text = "accept :ranomd:";
   json.user_name = 'obama';
@@ -108,7 +108,7 @@ test('POST /ttc accept :ranomd:, invalid emoji', function(done) {
 });
 
 
-test('POST /ttc accept :100:, should be able to accept challenge', function(done) {
+test('POST /ttt accept :100:, should be able to accept challenge', function(done) {
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
@@ -122,12 +122,13 @@ test('POST /ttc accept :100:, should be able to accept challenge', function(done
   .end(function(err, resp) {
     assert.ifError(err);
     assert(resp);
+    console.log(resp.body)
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
 });
 
-test('POST /ttc accept :100: if game already in channel', function(done) {
+test('POST /ttt accept :100: if game already in channel', function(done) {
   let json = baseJSON;
   json.text = "accept :100:";
   let expect = 'This channel already has a game running';
@@ -143,12 +144,12 @@ test('POST /ttc accept :100: if game already in channel', function(done) {
    });
 });
 
-test('POST /ttc accept :100: if never challenged', function(done) {
+test('POST /ttt accept :100: if never challenged', function(done) {
   let json = baseJSON;
   json.text = "accept :100:";
   json.channel_id = "1111";
   let expect = 'couldn\'t find game where you were challenged' +
-             '\n`/ttc challenge [@username] [symbol]` to challenge someone else';
+             '\n`/ttt challenge [@username] [:emoji:]` to challenge someone else';
 
   request(app)
    .post('/command')

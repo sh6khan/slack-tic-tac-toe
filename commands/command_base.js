@@ -17,7 +17,6 @@ class CommandBase {
     }
 
     this.defaultAttachmentInfo = {
-      title: 'Slack Challenge',
       color: '#2FA44F',
       mrkdwn_in: ['text']
     }
@@ -28,7 +27,7 @@ class CommandBase {
   */
   messageChannel(message, channel_name, res) {
     let attachmentObject = this.generateAttachment(message);
-    let fullResponse = this.generateResponse(attachmentObject, channel_name);
+    let fullResponse = this.generateResponse([attachmentObject], channel_name);
 
     this.sendResponse(res, fullResponse);
   }
@@ -37,10 +36,7 @@ class CommandBase {
     return Object.assign(this.defaultAttachmentInfo, message);
   }
 
-  generateResponse(attachmentObject, channel_name) {
-    let attachments = [];
-    attachments.push(attachmentObject);
-
+  generateResponse(attachments, channel_name) {
     const response = {
       channel: channel_name,
       attachments: attachments
@@ -101,12 +97,22 @@ class CommandBase {
   */
   _printBoard(game, params, res) {
     let board = game.generateBoardText();
-    const message = {
-      text: board +
-            '\n\n @'+ game.currentPlayer.username + '! go get em!'
+
+    const boardMessage = {
+      text: board
     }
 
-    this.messageChannel(message, params.channel_name, res);
+    const moralSupport = {
+      text: '@'+ game.currentPlayer.username + '! go get em!'
+    }
+
+    let attachments  = []
+    attachments.push(this.generateAttachment(boardMessage));
+    attachments.push(this.generateAttachment(moralSupport));
+
+    let fullResponse = this.generateResponse(attachments, params.channel_name);
+
+    this.sendResponse(res, fullResponse);
   }
 
   /**
@@ -118,7 +124,7 @@ class CommandBase {
   _gameNotFound(params, res) {
     const message = {
       text: 'couldn\'t find game where you were challenged' +
-            '\n`/ttc challenge [@username] [symbol]` to challenge someone else'
+            '\n`/ttt challenge [@username] [:emoji:]` to challenge someone else'
     }
 
     this.messageChannel(message, params.channel_name, res);

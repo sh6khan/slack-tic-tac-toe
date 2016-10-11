@@ -9,7 +9,7 @@ class UnkownCommand extends CommandBase {
 
   handleCommand(cmd, params, res) {
     const unkownCommandMessage = {
-      text: 'Hmm I have no idea what ' + cmd + ' is. type `/ttc help` to see all the things I can do`' +
+      text: 'Hmm I have no idea what ' + cmd + ' is. type `/ttt help` to see all the things I can do`' +
             '\n In the mean time, here are some other things I dont know how to do' +
             '\n I cant play music' +
 		        '\n I can chill but I can\'t netflix :sadpanda:' +
