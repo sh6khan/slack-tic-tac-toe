@@ -74,7 +74,7 @@ class ChallengeCommand extends CommandBase {
   _missingArgs(params, res) {
     const message = {
       text: '`/ttt challenge [@username] [:emoji:]` to challenge someone' +
-            '\n `/ttt challenge @slackbot :parrot:` (example)'
+            '\n `/ttt challenge @slackbot :cry:` (example)'
     }
 
     this.messageChannel(message, params.channel_name, res);

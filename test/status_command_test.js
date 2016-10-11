@@ -63,7 +63,7 @@ test('start server', function(done) {
 
 test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
-  json.text = "challenge @obama :parrot:";
+  json.text = "challenge @obama :cry:";
   let expectedResponse = "@obama! you have been challenged! " +
                          "\n `/ttt accept [:emoji:]` to accept!`"
 
@@ -80,7 +80,7 @@ test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(d
     assert.deepEqual({
       challenger: "sadman",
       challengee: "obama",
-      challengerSymbol: ":parrot:"
+      challengerSymbol: ":cry:"
     }, broadcasted[0]);
 
     done();

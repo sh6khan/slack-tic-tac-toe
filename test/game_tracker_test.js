@@ -10,7 +10,7 @@ suite('GameTracker');
 test('should be able to broadcast a game', function() {
   let gameTracker = new GameTracker();
 
-  gameTracker.broadcastChallenge(1, "sadman", "khan", ":parrot:");
+  gameTracker.broadcastChallenge(1, "sadman", "khan", ":cry:");
   gameTracker.broadcastChallenge(1, "steve", "jobs", ":100:");
   gameTracker.broadcastChallenge(1, "tim", "cook", ":fire:");
 });
@@ -23,7 +23,7 @@ test('should be able to accept a game', function() {
   assert.deepEqual({
     challenger: "sadman",
     challengee: "khan",
-    challengerSymbol: ":parrot:"
+    challengerSymbol: ":cry:"
   }, players);
 
   // once someone has accepted a challenge on a channel

@@ -65,7 +65,7 @@ test('start server', function(done) {
 
 test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
-  json.text = "challenge @obama :parrot:";
+  json.text = "challenge @obama :cry:";
   let expectedResponse = "@obama! you have been challenged! " +
                          "\n `/ttt accept [:emoji:]` to accept!`"
 
@@ -82,7 +82,7 @@ test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(d
     assert.deepEqual({
       challenger: "sadman",
       challengee: "obama",
-      challengerSymbol: ":parrot:"
+      challengerSymbol: ":cry:"
     }, broadcasted[0]);
 
     done();
@@ -110,7 +110,7 @@ test('POST /ttt move A, should be able to mark cell', function(done) {
   let json = baseJSON;
   json.text = "move A";
   json.user_name = 'sadman';
-  let expect = ':parrot:   |   B   |   C\n---------------------\n' +
+  let expect = ':cry:   |   B   |   C\n---------------------\n' +
                'D   |   E   |   F\n---------------------\n' +
                'G   |   H   |   I\n\n @obama! go get em!';
 
@@ -142,7 +142,7 @@ test('POST /ttt move D, good move', function(done) {
   let json = baseJSON;
   json.text = "move D";
   json.user_name = 'obama';
-  let expect = ':parrot:   |   B   |   C\n---------------------\n' +
+  let expect = ':cry:   |   B   |   C\n---------------------\n' +
                ':100:   |   E   |   F\n---------------------\n' +
                'G   |   H   |   I\n\n @sadman! go get em!';
 
@@ -159,7 +159,7 @@ test('POST /ttt move B, good move', function(done) {
   let json = baseJSON;
   json.text = "move B";
   json.user_name = 'sadman';
-  let expect = ':parrot:   |   :parrot:   |   C\n---------------------\n' +
+  let expect = ':cry:   |   :cry:   |   C\n---------------------\n' +
                ':100:   |   E   |   F\n---------------------\n' +
                'G   |   H   |   I\n\n @obama! go get em!';
 
@@ -176,7 +176,7 @@ test('POST /ttt move G, good move', function(done) {
   let json = baseJSON;
   json.text = "move G";
   json.user_name = 'obama';
-  let expect = ':parrot:   |   :parrot:   |   C\n---------------------\n' +
+  let expect = ':cry:   |   :cry:   |   C\n---------------------\n' +
                ':100:   |   E   |   F\n---------------------\n' +
                ':100:   |   H   |   I\n\n @sadman! go get em!';
   request(app)
@@ -192,7 +192,7 @@ test('POST /ttt move C, winner', function(done) {
   let json = baseJSON;
   json.text = "move C";
   json.user_name = 'sadman';
-  let expect = ':parrot:   |   :parrot:   |   :parrot:\n---------------------\n' +
+  let expect = ':cry:   |   :cry:   |   :cry:\n---------------------\n' +
                ':100:   |   E   |   F\n---------------------\n' +
                ':100:   |   H   |   I\n\@sadman IS THE WINNER';
 

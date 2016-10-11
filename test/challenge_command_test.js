@@ -66,7 +66,7 @@ test('POST /ttt challenge, missing challengee', function(done) {
   let json = baseJSON
   json.text = "challenge"
   let expectedResponse = '`/ttt challenge [@username] [:emoji:]` to challenge someone' +
-                         '\n `/ttt challenge @slackbot :parrot:` (example)';
+                         '\n `/ttt challenge @slackbot :cry:` (example)';
 
   request(app)
   .post('/command')
@@ -79,9 +79,9 @@ test('POST /ttt challenge, missing challengee', function(done) {
   });
 });
 
-test('POST /ttt challenge @randomperson :parrot:, no user', function(done) {
+test('POST /ttt challenge @randomperson :cry:, no user', function(done) {
   let json = baseJSON;
-  json.text = "challenge @randomuser :parrot:";
+  json.text = "challenge @randomuser :cry:";
   let expectedResponse = 'randomuser is not a team member :(';
 
   request(app)
@@ -97,7 +97,7 @@ test('POST /ttt challenge @randomperson :parrot:, no user', function(done) {
 
 test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(done) {
   let json = baseJSON;
-  json.text = "challenge @obama :parrot:";
+  json.text = "challenge @obama :cry:";
   let expectedResponse = "@obama! you have been challenged! " +
                          "\n `/ttt accept [:emoji:]` to accept!`"
 
@@ -114,7 +114,7 @@ test('POST /ttt challenge @obama :fire:, should broadcast challenge', function(d
     assert.deepEqual({
       challenger: "sadman",
       challengee: "obama",
-      challengerSymbol: ":parrot:"
+      challengerSymbol: ":cry:"
     }, broadcasted[0]);
 
     done();

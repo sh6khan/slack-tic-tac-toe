@@ -57,6 +57,8 @@ class SlackClient {
         return cb();
       }
 
+      console.log(data.emoji)
+
       allEmoji = data.emoji;
 
       cb();
