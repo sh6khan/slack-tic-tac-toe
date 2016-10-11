@@ -27,6 +27,11 @@ class AcceptCommand extends CommandBase {
       return;
     }
 
+    if (!this.validateEmoji(args[1])) {
+      this._invalidEmoji(args[1], params, res);
+      return;
+    }
+
     let acceptedChallenge = gameTracker.acceptChallenge(params.channel_id, params.user_name);
     if (!acceptedChallenge) {
       this._gameNotFound(params, res);
@@ -58,7 +63,7 @@ class AcceptCommand extends CommandBase {
   */
   _missingArgs(params, res) {
     const message = {
-      text: '`/ttc accept [symbol]` to accept a challenge' +
+      text: '`/ttc accept [:emoji:]` to accept a challenge' +
             '\n `/ttc accept :fire:` (example)'
     }
 

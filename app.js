@@ -15,6 +15,7 @@ let gameTracker = new GameTracker();
 let app = express();
 
 slackClient.getAllUsers();
+slackClient.getAllEmojis();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -32,7 +33,7 @@ app.post('/command', function(req, res) {
   let commandAndArgs;
 
   console.log(params);
-  
+
   // completly ignore the message if token does not match
   if (params.token != Constants.MESSAGE_TOKEN) {
     return;

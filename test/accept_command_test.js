@@ -37,6 +37,13 @@ test('start server', function(done) {
     {name: "hamilton", id: 6},
   ]
 
+  const nockEmoji = {
+    "parrot" : "testurl",
+    "fire" : "testurl",
+    "100" : "testurl",
+    "cry" : "testurl"
+  }
+
   nock('https://slack.com/api')
   .post('/users.list')
   .times(2)
@@ -44,8 +51,16 @@ test('start server', function(done) {
     members: nockMembers
   });
 
+  nock('https://slack.com/api')
+  .post('/emoji.list')
+  .reply(200, {
+    emoji: nockEmoji
+  });
+
   let slackClient = new SlackClient();
-  slackClient.getAllUsers(done);
+  slackClient.getAllUsers(function() {
+    slackClient.getAllEmojis(done);
+  });
 });
 
 test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(done) {
@@ -74,13 +89,32 @@ test('POST /ttc challenge @obama :fire:, should broadcast challenge', function(d
   });
 });
 
+test('POST /ttc accept :ranomd:, invalid emoji', function(done) {
+  let json = baseJSON;
+  json.text = "accept :ranomd:";
+  json.user_name = 'obama';
+  let expect = ':ranomd: is not a valid emoji :cry:'
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.ifError(err);
+    assert(resp);
+    console.log(resp.body);
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+
 test('POST /ttc accept :100:, should be able to accept challenge', function(done) {
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
-  let expect = 'A   |   B   |   C\n---------------------\n' +
-               'D   |   E   |   F\n---------------------\n' +
-               'G   |   H   |   I\n\n @sadman! go get em!';
+  let expect = 'A     |   B   |   C\n---------------------\n' +
+               'D     |   E   |   F\n---------------------\n' +
+               'G     |   H   |   I\n\n @sadman! go get em!';
 
   request(app)
   .post('/command')

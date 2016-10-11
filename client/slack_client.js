@@ -11,9 +11,12 @@ const Constants = require('../constants');
 */
 
 let teamUsers = {}
+let allEmoji = {}
 
 class SlackClient {
-  constructor() {}
+  constructor() {
+    this.token = Constants.SLACK_API_TOKEN;
+  }
 
   /**
   * return the userId associated with a slack username
@@ -27,16 +30,49 @@ class SlackClient {
   }
 
   /**
-  * Grab all users from the Slack team and store the data
-  * in memory under the teamUsers global variable
+  * Get the url of the emoji
+  *
+  * @param emoji {String}
+  * @return String
   */
-  getAllUsers(cb) {
-    let token = Constants.SLACK_API_TOKEN || 'local test token';
+  findEmoji(emoji) {
+    return allEmoji[emoji];
+  }
+
+  /**
+  * This game allows to use emojis as symbols
+  * for cells
+  */
+  getAllEmojis(cb) {
     var self = this;
 
     cb = cb || function() {};
 
-    Slack.users.list({token: token}, function(err, data) {
+    Slack.emoji.list({token: self.token}, function(err, data) {
+      // This is not an error that we should be passing
+      // back up the call stack as it is very critical
+      if (err) {
+        console.log(err);
+        //throw new Error('Received Error from Slack', err);
+        return cb();
+      }
+
+      allEmoji = data.emoji;
+
+      cb();
+    });
+  }
+
+  /**
+  * Grab all users from the Slack team and store the data
+  * in memory under the teamUsers global variable
+  */
+  getAllUsers(cb) {
+    var self = this;
+
+    cb = cb || function() {};
+
+    Slack.users.list({token: self.token}, function(err, data) {
       // This is not an error that we should be passing
       // back up the call stack as it is very critical
       if (err) {

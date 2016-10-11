@@ -1,5 +1,7 @@
 'use strict'
 
+const Slack = require('../client/slack_client');
+
 /**
 * CommandBase class handles reponding to commands
 * coming from Slack
@@ -7,6 +9,8 @@
 
 class CommandBase {
   constructor() {
+    this.slackClient = new Slack();
+
     this.defaultMessageInfo = {
       response_type: 'in_channel',
       username: 'Tiko'
@@ -51,6 +55,30 @@ class CommandBase {
   }
 
   /**
+  * Validate the user passed in an emoji
+  *
+  * @param arg {String}
+  */
+  validateEmoji(arg) {
+    if (arg[0] != ":") {
+      return false
+    }
+
+    if (arg[arg.length - 1] != ":") {
+      return false
+    }
+
+    let emoji = arg.slice(1, -1);
+
+    if (!this.slackClient.findEmoji(emoji)) {
+      return false
+    }
+
+    return true;
+  }
+
+
+  /**
   * message the channel when there is already an active game
   *
   * @param params {Object} - params received from Slack
@@ -91,6 +119,21 @@ class CommandBase {
     const message = {
       text: 'couldn\'t find game where you were challenged' +
             '\n`/ttc challenge [@username] [symbol]` to challenge someone else'
+    }
+
+    this.messageChannel(message, params.channel_name, res);
+  }
+
+  /**
+  * Invalid emoji
+  *
+  * @param emoji {String}
+  * @param params {Object} - params received from Slack
+  * @param res {Object} - the response object to post back to channel
+  */
+  _invalidEmoji(emoji, params, res) {
+    const message = {
+      text: emoji + ' is not a valid emoji :cry:'
     }
 
     this.messageChannel(message, params.channel_name, res);
