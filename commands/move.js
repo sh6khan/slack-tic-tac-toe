@@ -66,8 +66,6 @@ class MoveCommand extends CommandBase {
   * @param res {Object} - the response object to post back to channel
   */
   _tied(params, res) {
-    let username = player.username
-
     const message = {
       text: 'the game is tied :cry:'
     }

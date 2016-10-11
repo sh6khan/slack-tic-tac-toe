@@ -8,7 +8,7 @@ class HelpCommand extends CommandBase {
   }
 
   /**
-  *  return  a json response to slack to be rendered in the channel
+  *  return  a json response to slack to be rendered in the channels
   */
   handleCommand(gameTracker, params, res) {
     let game = gameTracker.find_game(params.channel_id);
