@@ -31,6 +31,8 @@ app.post('/command', function(req, res) {
   let CommandClass;
   let commandAndArgs;
 
+  console.log(params);
+  
   // completly ignore the message if token does not match
   if (params.token != Constants.MESSAGE_TOKEN) {
     return;
