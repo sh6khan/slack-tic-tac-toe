@@ -48,6 +48,10 @@ class ChallengeCommand extends CommandBase {
       return;
     }
 
+    if (!this.validateEmoji(args[2])) {
+      this._invalidEmoji(args[2], params, res);
+      return;
+    }
 
     // Challenger symbol
     let challengerSymbol = args[2];
