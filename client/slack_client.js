@@ -30,42 +30,6 @@ class SlackClient {
   }
 
   /**
-  * Get the url of the emoji
-  *
-  * @param emoji {String}
-  * @return String
-  */
-  findEmoji(emoji) {
-    return allEmoji[emoji];
-  }
-
-  /**
-  * This game allows to use emojis as symbols
-  * for cells
-  */
-  getAllEmojis(cb) {
-    var self = this;
-
-    cb = cb || function() {};
-
-    Slack.emoji.list({token: self.token}, function(err, data) {
-      // This is not an error that we should be passing
-      // back up the call stack as it is very critical
-      if (err) {
-        console.log(err);
-        //throw new Error('Received Error from Slack', err);
-        return cb();
-      }
-
-      console.log(data.emoji)
-
-      allEmoji = data.emoji;
-
-      cb();
-    });
-  }
-
-  /**
   * Grab all users from the Slack team and store the data
   * in memory under the teamUsers global variable
   */

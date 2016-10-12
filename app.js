@@ -15,7 +15,6 @@ let gameTracker = new GameTracker();
 let app = express();
 
 slackClient.getAllUsers();
-slackClient.getAllEmojis();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

@@ -12,7 +12,6 @@ test('it should be able to generate attachments', function() {
   }
 
   const expected = {
-    title: 'Slack Challenge',
     color: '#2FA44F',
     mrkdwn_in: ['text'],
     text: 'this is some help text',
@@ -25,7 +24,6 @@ test('it should be able to generate full responses', function() {
   let commandBase = new CommandBase();
 
   const attachmentObject = {
-    title: 'Slack Challenge',
     color: '#2FA44F',
     mrkdwn_in: ['text'],
     text: 'this is some help text',
@@ -44,5 +42,5 @@ test('it should be able to generate full responses', function() {
     username: 'Tiko'
   }
 
-  assert.deepEqual(expectedFullResponse, commandBase.generateResponse(attachmentObject, params.channel_name));
+  assert.deepEqual(expectedFullResponse, commandBase.generateResponse([attachmentObject], params.channel_name));
 });

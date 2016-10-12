@@ -1,26 +1,24 @@
 'use strict'
 
-const Slack = require('../client/slack_client');
+const Emoji = require('../lib/emoji');
 
 /**
 * CommandBase class handles reponding to commands
 * coming from Slack
 */
 
+const defaultMessageInfo = {
+  response_type: 'in_channel',
+  username: 'Tiko'
+}
+
+const defaultAttachmentInfo = {
+  color: '#2FA44F',
+  mrkdwn_in: ['text']
+}
+
 class CommandBase {
-  constructor() {
-    this.slackClient = new Slack();
-
-    this.defaultMessageInfo = {
-      response_type: 'in_channel',
-      username: 'Tiko'
-    }
-
-    this.defaultAttachmentInfo = {
-      color: '#2FA44F',
-      mrkdwn_in: ['text']
-    }
-  }
+  constructor() {}
 
   /**
   * This function will send a message to the slack channel
@@ -33,16 +31,16 @@ class CommandBase {
   }
 
   generateAttachment(message) {
-    return Object.assign(this.defaultAttachmentInfo, message);
+    return Object.assign(message, defaultAttachmentInfo);
   }
 
-  generateResponse(attachments, channel_name) {
+  generateResponse(attachments, channel_name) {  
     const response = {
       channel: channel_name,
       attachments: attachments
     };
 
-    return Object.assign(this.defaultMessageInfo, response);
+    return Object.assign(response, defaultMessageInfo);
   }
 
   sendResponse(res, fullResponse) {
@@ -66,7 +64,7 @@ class CommandBase {
 
     let emoji = arg.slice(1, -1);
 
-    if (!this.slackClient.findEmoji(emoji)) {
+    if (!Emoji.get(emoji)) {
       return false
     }
 
@@ -98,17 +96,20 @@ class CommandBase {
   _printBoard(game, params, res) {
     let board = game.generateBoardText();
 
-    const boardMessage = {
-      text: board
-    }
-
     const moralSupport = {
       text: '@'+ game.currentPlayer.username + '! go get em!'
     }
 
+    const boardMessage = {
+      text: board
+    }
+
     let attachments  = []
-    attachments.push(this.generateAttachment(boardMessage));
-    attachments.push(this.generateAttachment(moralSupport));
+    let boardAttach = this.generateAttachment(boardMessage);
+    let supportAttach = this.generateAttachment(moralSupport);
+
+    attachments.push(boardAttach);
+    attachments.push(supportAttach);
 
     let fullResponse = this.generateResponse(attachments, params.channel_name);
 

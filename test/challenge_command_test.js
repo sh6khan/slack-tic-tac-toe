@@ -36,13 +36,6 @@ test('start server', function(done) {
     {name: "hamilton", id: 6},
   ]
 
-  const nockEmoji = {
-    "parrot" : "testurl",
-    "fire" : "testurl",
-    "100" : "testurl",
-    "cry" : "testurl"
-  }
-
   nock('https://slack.com/api')
   .post('/users.list')
   .times(2)
@@ -50,16 +43,8 @@ test('start server', function(done) {
     members: nockMembers
   });
 
-  nock('https://slack.com/api')
-  .post('/emoji.list')
-  .reply(200, {
-    emoji: nockEmoji
-  });
-
   let slackClient = new SlackClient();
-  slackClient.getAllUsers(function() {
-    slackClient.getAllEmojis(done);
-  });
+  slackClient.getAllUsers(done);
 });
 
 test('POST /ttt challenge, missing challengee', function(done) {

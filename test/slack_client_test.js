@@ -19,13 +19,6 @@ before('set up global users and emoji list', function(done) {
     {name: "hamilton", id: 6},
   ]
 
-  const nockEmoji = {
-    "parrot" : "testurl",
-    "fire" : "testurl",
-    "100" : "testurl",
-    "cry" : "testurl"
-  }
-
   nock('https://slack.com/api')
   .post('/users.list')
   .times(2)
@@ -33,16 +26,8 @@ before('set up global users and emoji list', function(done) {
     members: nockMembers
   });
 
-  nock('https://slack.com/api')
-  .post('/emoji.list')
-  .reply(200, {
-    emoji: nockEmoji
-  });
-
   let slackClient = new SlackClient();
-  slackClient.getAllUsers(function() {
-    slackClient.getAllEmojis(done);
-  });
+  slackClient.getAllUsers(done);
 });
 
 test('it should be able to a user from list', function() {
@@ -51,10 +36,3 @@ test('it should be able to a user from list', function() {
   assert.equal(3, slackClient.getUserId("washington"));
   assert.equal(undefined, slackClient.getUserId("random"));
 });
-
-test('it should be able to get a emoji from list', function() {
-  assert.equal("testurl", slackClient.findEmoji("parrot"));
-  assert.equal("testurl", slackClient.findEmoji("cry"));
-  assert.equal("testurl", slackClient.findEmoji("fire"));
-  assert.equal(undefined, slackClient.findEmoji("random"));
-})
