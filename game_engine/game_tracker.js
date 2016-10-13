@@ -41,31 +41,37 @@ class GameTracker {
   *
   * @param channelId {Int}
   * @param challengee {String} - the username of the challengee
-  * @return Object - return empty object if game could not be found
   */
-  acceptChallenge(channelId, challengee) {
+  acceptChallenge(channelId) {
+    if (!channelId) {
+      throw new Error('missing param channelId')
+    }
+
+    broadcastedGames[channelId] = []
+  }
+
+  /**
+  * Given a channel_id and a challengee find a broadcasted challenge
+  * Do not start the challenge
+  *
+  * @param channelId {Int}
+  * @param challengee {String} - the username of the challengee
+  */
+  findChallenge(channelId, challengee) {
     if (!broadcastedGames[channelId]) {
       return;
     }
 
-    let gamePlayers = {}
-    let foundChallenge = false;
+    let gamePlayers = null
 
     broadcastedGames[channelId].forEach(function(players) {
       if (challengee == players.challengee) {
         gamePlayers = players;
-        foundChallenge = true;
         return;
       }
     });
 
-    // clear all waiting games
-    if (foundChallenge) {
-      broadcastedGames[channelId] = []
-      return gamePlayers;
-    }
-
-    return;
+    return gamePlayers;
   }
 
   /**
@@ -91,6 +97,9 @@ class GameTracker {
 
   /**
   * Set an active game for the channel
+  *
+  * @param channelId {Int}
+  * @param game {TicTacToe}
   */
   gameStarted(channelId, game) {
     if (allActiveTicTacToeGames[channelId]) {
@@ -102,6 +111,9 @@ class GameTracker {
 
   /**
   * remove active game from channel if the game is over
+  *
+  * @param channelId {Int}
+  * @param game {TicTacToe}
   */
   removeGame(channelId, game) {
     if (!allActiveTicTacToeGames[channelId]) {

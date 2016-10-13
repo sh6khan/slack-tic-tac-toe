@@ -32,6 +32,8 @@ class SlackClient {
   /**
   * Grab all users from the Slack team and store the data
   * in memory under the teamUsers global variable
+  *
+  * @param cb {Function} - callback function
   */
   getAllUsers(cb) {
     var self = this;

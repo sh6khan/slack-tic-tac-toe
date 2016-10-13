@@ -3,7 +3,7 @@
 const Emoji = require('../lib/emoji');
 
 /**
-* CommandBase class handles reponding to commands
+* CommandBase class handles responding to commands
 * coming from Slack
 */
 
@@ -34,7 +34,7 @@ class CommandBase {
     return Object.assign(message, defaultAttachmentInfo);
   }
 
-  generateResponse(attachments, channel_name) {  
+  generateResponse(attachments, channel_name) {
     const response = {
       channel: channel_name,
       attachments: attachments

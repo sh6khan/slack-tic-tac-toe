@@ -86,7 +86,23 @@ test('POST /ttt accept :ranomd:, invalid emoji', function(done) {
   .end(function(err, resp) {
     assert.ifError(err);
     assert(resp);
-    console.log(resp.body);
+    assert.equal(expect, resp.body.attachments[0].text);
+    done();
+  });
+});
+
+test('POST /ttt accept :cry:, same emoji', function(done) {
+  let json = baseJSON;
+  json.text = "accept :cry:";
+  json.user_name = 'obama';
+  let expect = 'Unfortunetly you cannot both use the same emoji :cry:'
+
+  request(app)
+  .post('/command')
+  .send(json)
+  .end(function(err, resp) {
+    assert.ifError(err);
+    assert(resp);
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -107,7 +123,7 @@ test('POST /ttt accept :100:, should be able to accept challenge', function(done
   .end(function(err, resp) {
     assert.ifError(err);
     assert(resp);
-    console.log(resp.body.attachments)
+    console.log(resp.body);
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });

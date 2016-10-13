@@ -32,15 +32,20 @@ class AcceptCommand extends CommandBase {
       return;
     }
 
-    let acceptedChallenge = gameTracker.acceptChallenge(params.channel_id, params.user_name);
-    if (!acceptedChallenge) {
+    let challenge = gameTracker.findChallenge(params.channel_id, params.user_name);
+    if (!challenge) {
       this._gameNotFound(params, res);
       return;
     }
 
     let symbol = args[1];
-    let challenger = acceptedChallenge.challenger;
-    let challengerSymbol = acceptedChallenge.challengerSymbol;
+    let challenger = challenge.challenger;
+    let challengerSymbol = challenge.challengerSymbol;
+
+    if (challengerSymbol == symbol) {
+      this._sameSymbol(params, res);
+      return;
+    }
 
     // game found, which means we can start!
     // challenger goes first
@@ -49,10 +54,26 @@ class AcceptCommand extends CommandBase {
 
     game = new TicTacToe(playerOne, playerTwo);
 
+    gameTracker.acceptChallenge(params.channel_id);
     gameTracker.gameStarted(params.channel_id, game);
+
 
     this._printBoard(game, params, res);
     return;
+  }
+
+  /**
+  * Both players cannot use the same emoji
+  *
+  * @param params {Object} - params received from Slack
+  * @param res {Object} - the response object to post back to channel
+  */
+  _sameSymbol(params, res) {
+    const message = {
+      text: 'Unfortunetly you cannot both use the same emoji :cry:'
+    }
+
+    this.messageChannel(message, params.channel_name, res);
   }
 
   /**

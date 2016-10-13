@@ -18,7 +18,8 @@ test('should be able to broadcast a game', function() {
 test('should be able to accept a game', function() {
   let gameTracker = new GameTracker();
 
-  let players = gameTracker.acceptChallenge(1, "khan");
+  let players = gameTracker.findChallenge(1, "khan");
+  gameTracker.acceptChallenge(1);
 
   assert.deepEqual({
     challenger: "sadman",
@@ -28,7 +29,7 @@ test('should be able to accept a game', function() {
 
   // once someone has accepted a challenge on a channel
   // all other broadcastedGames should be cleared
-  players = gameTracker.acceptChallenge(1, "jobs");
+  players = gameTracker.findChallenge(1, "jobs");
   assert.equal(undefined, players);
 });
 

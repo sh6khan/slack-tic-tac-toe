@@ -168,6 +168,8 @@ class TicTacToe {
   /**
   * Declare the player as the winner and update
   * the state of the current game
+  *
+  * @param player {Player}
   */
   _winner(player) {
     this.state = player == this.players[0] ? Status.PLAYERONE_WINNER : Status.PLAYERTWO_WINNER
@@ -194,6 +196,8 @@ class TicTacToe {
 
   /**
   * Validate move is coming from one of the players an not someone else
+  *
+  * @param player {Player}
   */
   _validate_player(player) {
     if (player != this.playerOne && player != this.playerTwo) {
