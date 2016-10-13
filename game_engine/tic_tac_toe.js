@@ -129,17 +129,23 @@ class TicTacToe {
     for(var row = 0; row < this.board.size; row++) {
       for(var col = 0; col < this.board.size; col++) {
         cell = this.board.get(row, col);
-        cell = cell == undefined ? ReverseMoveMapping[row][col] : cell.symbol;
+
+        if (cell == undefined) {
+          cell = "   " + ReverseMoveMapping[row][col] + "  "
+        } else {
+          cell = cell.symbol;
+        }
+
         cells.push(cell);
       }
     }
 
     let board =
-    cells[0] + '     |   ' + cells[1] + '   |   ' + cells[2] +
+     cells[0] + '   |   ' + cells[1] + '   |   ' + cells[2] +
     '\n---------------------' +
-    '\n' + cells[3] + '     |   ' + cells[4] + '   |   ' + cells[5] +
+    '\n' + cells[3] + '   |   ' + cells[4] + '   |   ' + cells[5] +
     '\n---------------------' +
-    '\n' + cells[6] + '     |   ' + cells[7] + '   |   ' + cells[8];
+    '\n' + cells[6] + '   |   ' + cells[7] + '   |   ' + cells[8];
 
     return board;
   }
