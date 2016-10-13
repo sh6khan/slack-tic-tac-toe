@@ -30,7 +30,7 @@ class ChallengeCommand extends CommandBase {
     // ensure that challengee is properly formatted
     let challengee = args[1];
     if (challengee[0] != "@") {
-      this._missingChallengee(params, res);
+      this._missingArgs(params, res);
       return;
     }
     challengee = challengee.slice(1);

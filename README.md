@@ -18,12 +18,12 @@ There are a couple other rules when playing Tic Tac Toe in slack
 
 # Commands
 
-`/ttt challenge [@username] [:emoji:]` To challenge a member to a game. Instead of an X, their symbol would be an emoji.
-`/ttt accept [:emoji:]` To accept a challenge and start a game. Instead of an O, their symbol would be an emoji.
-`/ttt move [Cell Name]` Place player emoji on a cell.
-`/ttt quit` Quit the current game on the channel (Either players can quit).
-`/ttt status` See the Status of the current board and who's turn in is.
-`/ttt help` See what commands are available.
+- `/ttt challenge [@username] [:emoji:]` To challenge a member to a game. Instead of an X, their symbol would be an emoji.
+- `/ttt accept [:emoji:]` To accept a challenge and start a game. Instead of an O, their symbol would be an emoji.
+- `/ttt move [Cell Name]` Place player emoji on a cell.
+- `/ttt quit` Quit the current game on the channel (Either players can quit).
+- `/ttt status` See the Status of the current board and who's turn in is.
+- `/ttt help` See what commands are available.
 
 # Architecture
 
@@ -91,3 +91,9 @@ to see how this service is deployed.
 > This service is deployed on the free tier of Heroku and therefore service is atomically scaled down.
 This means the first command usually times out because Heroku is busy scaling it back up. 2nd requests
 and going forward work fine
+
+> The initialization of this service is the only time that we pull down the team member data and store in
+memroy. This means if a new team memeber is added to the slack team, the service will need to be restarted to pull
+the new team member data
+
+> Custom emojies are not supported 😢

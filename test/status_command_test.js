@@ -77,14 +77,14 @@ test('POST /ttt accept :100:, should be able to accept challenge', function(done
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
-  let expect = 'A     |   B   |   C\n---------------------\n' +
-               'D     |   E   |   F\n---------------------\n' +
-               'G     |   H   |   I';
 
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -94,14 +94,14 @@ test('POST /ttt status, should print current board', function(done) {
   let json = baseJSON;
   json.text = 'status';
   json.user_name = 'thomas';
-  let expect = 'A     |   B   |   C\n---------------------\n' +
-               'D     |   E   |   F\n---------------------\n' +
-               'G     |   H   |   I';
-               
+
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });

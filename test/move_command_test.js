@@ -78,14 +78,14 @@ test('POST /ttt accept :100:, should be able to accept challenge', function(done
   let json = baseJSON;
   json.text = "accept :100:";
   json.user_name = 'obama';
-  let expect = 'A     |   B   |   C\n---------------------\n' +
-               'D     |   E   |   F\n---------------------\n' +
-               'G     |   H   |   I';
 
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -95,14 +95,15 @@ test('POST /ttt move A, should be able to mark cell', function(done) {
   let json = baseJSON;
   json.text = "move A";
   json.user_name = 'sadman';
-  let expect = ':cry:     |   B   |   C\n---------------------\n' +
-               'D     |   E   |   F\n---------------------\n' +
-               'G     |   H   |   I';
+
 
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -127,14 +128,14 @@ test('POST /ttt move D, good move', function(done) {
   let json = baseJSON;
   json.text = "move D";
   json.user_name = 'obama';
-  let expect = ':cry:     |   B   |   C\n---------------------\n' +
-               ':100:     |   E   |   F\n---------------------\n' +
-               'G     |   H   |   I';
 
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -144,13 +145,14 @@ test('POST /ttt move B, good move', function(done) {
   let json = baseJSON;
   json.text = "move B";
   json.user_name = 'sadman';
-  let expect = ':cry:     |   :cry:   |   C\n---------------------\n' +
-               ':100:     |   E   |   F\n---------------------\n' +
-               'G     |   H   |   I';
+
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -160,14 +162,14 @@ test('POST /ttt move G, good move', function(done) {
   let json = baseJSON;
   json.text = "move G";
   json.user_name = 'obama';
-  let expect = ':cry:     |   :cry:   |   C\n---------------------\n' +
-               ':100:     |   E   |   F\n---------------------\n' +
-               ':100:     |   H   |   I';
 
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
+    let game = gameTracker.find_game(json.channel_id);
+    let expect = game.generateBoardText();
+
     assert.equal(expect, resp.body.attachments[0].text);
     done();
   });
@@ -177,14 +179,11 @@ test('POST /ttt move C, winner', function(done) {
   let json = baseJSON;
   json.text = "move C";
   json.user_name = 'sadman';
-  let expect = ':cry:     |   :cry:   |   :cry:\n---------------------\n' +
-               ':100:     |   E   |   F\n---------------------\n' +
-               ':100:     |   H   |   I';
+
   request(app)
   .post('/command')
   .send(json)
   .end(function(err, resp) {
-    assert.equal(expect, resp.body.attachments[0].text);
     assert.equal("@sadman! is the winner :smile:", resp.body.attachments[1].text);
     done();
   });
